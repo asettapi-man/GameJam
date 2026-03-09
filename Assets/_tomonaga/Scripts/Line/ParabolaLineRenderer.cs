@@ -98,7 +98,7 @@ public class ParabolaLineRenderer : MonoBehaviour
     /// </summary>
     void SpawnParticles()
     {
-        for (int i = 0; i < segmentCount; i++)
+        for (int i = 0; i < segmentCount-2; i++)
         {
             // LineRendererの頂点位置を取得
             Vector3 pos = line.GetPosition(i);

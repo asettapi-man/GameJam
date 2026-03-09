@@ -4,8 +4,6 @@ public class LineManager:MonoBehaviour
 {
     public static LineManager Instance { get; private set; }
     
-    private MouseWheelHorizontalMove wheelHorizontalMove;
-
     private ParabolaLineRenderer lineRenderer;
 
     void Awake()
@@ -15,24 +13,17 @@ public class LineManager:MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// ラインレンダースクリプトのリファレンスを入手する
     /// </summary>
-    /// <param name="_mouseWheelHorizontalMove"></param>
-    public void SetWheelHorizontalMove(MouseWheelHorizontalMove _mouseWheelHorizontalMove)
-    {
-        wheelHorizontalMove = _mouseWheelHorizontalMove;
-    }
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="_parabolaLineRenderer"></param>
+    /// <param name="_parabolaLineRenderer"></param>入手するリファレンス
     public void SetParabolaLineRenderer(ParabolaLineRenderer _parabolaLineRenderer)
     {
         lineRenderer = _parabolaLineRenderer;
     }
 
+    /// <summary>
+    /// ラインの更新
+    /// </summary>
     public void UpadateLine()
     {
         lineRenderer.DrawParabola();
