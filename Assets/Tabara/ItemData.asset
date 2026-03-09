@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6239961d60f4ad4283be1f9b288cced, type: 3}
+  m_Name: ItemData
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDataBase
+  datas:
+  - itemName: ice
+    money: 50
+    gravity: 1
+    sprite: {fileID: 6124224083726815663, guid: 6ffe16426744c334ba33ddd007853358, type: 3}
+  - itemName: cake
+    money: 100
+    gravity: 1
+    sprite: {fileID: 0}
