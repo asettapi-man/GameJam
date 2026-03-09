@@ -1,4 +1,6 @@
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LineManager:MonoBehaviour
 {
@@ -6,9 +8,23 @@ public class LineManager:MonoBehaviour
     
     private ParabolaLineRenderer lineRenderer;
 
+    public  GameObject FlyingItemPrafabs;
+
+    private GameObject FlyingItem;
+
+    private GameObject predictionPoint;
+
+    public InputAction pushAction; // クリック入力アクション
+
     void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        pushAction.Enable();
+        pushAction.performed += OnClick;
     }
 
 
@@ -27,6 +43,17 @@ public class LineManager:MonoBehaviour
     public void UpadateLine()
     {
         lineRenderer.DrawParabola();
+    }
+
+    void OnClick(InputAction.CallbackContext context)
+    {
+        Instantiate(FlyingItemPrafabs, new Vector3(0, 0, 0), Quaternion.identity);
+    }
+
+    public void SetFlyingPoints(GameObject _flyingItem,GameObject _predictionPoint)
+    {
+        FlyingItem = _flyingItem;
+        predictionPoint = _predictionPoint;
     }
 
 }

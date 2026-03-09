@@ -10,10 +10,10 @@ using UnityEngine;
 public class ParabolaLineRenderer : MonoBehaviour
 {
     // 放物線の開始位置
-    public Transform startPoint;
+    private Transform startPoint;
 
     // 放物線の終了位置
-    public Transform endPoint;
+    private Transform endPoint;
 
     // LineRendererの分割数（多いほど滑らか）
     public int segmentCount = 30;
@@ -78,17 +78,17 @@ public class ParabolaLineRenderer : MonoBehaviour
             float t = i / (float)(segmentCount - 1);
 
             // startからendまで線形補間
-            Vector3 position = Vector3.Lerp(startPoint.position, endPoint.position, t);
+            //Vector3 position = Vector3.Lerp(startPoint.position, endPoint.position, t);
 
             // 放物線の高さを計算
             // t=0.5で最大になる
             float parabola = 4 * height * (t - t * t);
 
             // Y方向に高さを追加
-            position.y += parabola;
+            //position.y += parabola;
 
             // LineRendererの頂点に設定
-            line.SetPosition(i, position);
+            ///line.SetPosition(i, position);
         }
     }
 

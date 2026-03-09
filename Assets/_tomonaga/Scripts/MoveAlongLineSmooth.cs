@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class MoveAlongLine : MonoBehaviour
 {
     public LineRenderer line;       // 移動経路となるLineRenderer
-    public Transform target;        // 移動させるオブジェクト
+    private Transform target;        // 移動させるオブジェクト
     public float speed = 5f;        // 移動速度
     public InputAction clickAction; // クリック入力アクション
 
