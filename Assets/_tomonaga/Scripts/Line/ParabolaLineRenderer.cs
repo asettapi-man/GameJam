@@ -1,6 +1,5 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngineInternal;
 
 /// <summary>
 /// 2つのオブジェクトの間に放物線を描くクラス
@@ -69,6 +68,12 @@ public class ParabolaLineRenderer : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 放物線の始点・終点・予測点を設定
+    /// </summary>
+    /// <param name="_flyingItem">飛行するアイテム（始点）</param>
+    /// <param name="_endPoint">マウスホイールで移動する終点</param>
+    /// <param name="_predictionPoint">衝突判定後の実際の着地予測点</param>
     public void GetFlyingPoints(Transform _flyingItem, Transform _endPoint ,Transform _predictionPoint)
     {
         startPoint = _flyingItem;
@@ -77,6 +82,9 @@ public class ParabolaLineRenderer : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 放物線の描画とパーティクルの配置を実行
+    /// </summary>
     public void ActiveLine()
     {
         // 放物線を描画
@@ -136,6 +144,9 @@ public class ParabolaLineRenderer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 既存の全パーティクルを破棄
+    /// </summary>
     void ClearParticles()
     {
         for (int i = 0; i < particles.Length; i++)
@@ -165,35 +176,44 @@ public class ParabolaLineRenderer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// LineRendererコンポーネントを取得
+    /// </summary>
+    /// <returns>LineRendererコンポーネント</returns>
     public LineRenderer GetLineRenderer()
     {
         return line;
     }
 
+    /// <summary>
+    /// 終点の衝突判定を行い、衝突している場合は予測点を調整
+    /// 放物線の始点側から順に衝突チェックし、最初に衝突した位置の1つ前を予測点とする
+    /// </summary>
     void AdjustEndPointPosition()
     {
-        
+
         // 接触点が存在しない場合は終点が予測地点になる
         if (!Physics2D.OverlapCircle(endPoint.position, collisionCheckRadius))
         {
-           
+
             conflictSegmentCount = segmentCount;
             LineManager.Instance.UpdatePredictionPointPos(endPoint.position);
             return;
         }
 
-        
+
 
         // 放物線の頂点を始点側からチェック
         for (int i = 0; i < segmentCount-1; i++)
         {
-        
+
             Vector3 checkConflictPos = line.GetPosition(i);
 
             // この位置で衝突判定
             if (Physics2D.OverlapCircle(checkConflictPos, collisionCheckRadius))
             {
                 // 衝突した位置を発見
+                // 衝突位置の1つ前（i-1）を予測点として設定
                 LineManager.Instance.UpdatePredictionPointPos(line.GetPosition(Mathf.Max(0, i - 1)));
 
                 conflictSegmentCount = i;
@@ -209,15 +229,19 @@ public class ParabolaLineRenderer : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// 終点の位置を更新（マウスホイール操作時に呼ばれる）
     /// </summary>
-    /// <param name="transform"></param>
+    /// <param name="transform">新しい終点のTransform</param>
     public void UpdateEndPointPos(Transform transform)
     {
         endPoint.position = transform.position;
     }
 
 
+    /// <summary>
+    /// 衝突が発生した頂点番号を取得
+    /// </summary>
+    /// <returns>衝突した頂点のインデックス（衝突なしの場合はsegmentCount）</returns>
     public int GetConflictSegmentCount()
     {
         return conflictSegmentCount;
