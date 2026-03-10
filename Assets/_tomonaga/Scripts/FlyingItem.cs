@@ -20,7 +20,6 @@ public class FlyingItem : MonoBehaviour
     private Color predictionPointColor;
 
     // アイテムに表示するスプライト
-    [SerializeField, Header("(暫定版)アイテム画像")]
     private Sprite itemSprite;
 
     // 終点までの初期距離
@@ -44,15 +43,18 @@ public class FlyingItem : MonoBehaviour
         endObj = Instantiate(endPointPrafabs, new Vector3(predictionDistance, 0, 0), Quaternion.identity);
         preObj = Instantiate(predictionPointPrafabs, new Vector3(predictionDistance, 0, 0), Quaternion.identity);
 
-        // 予測点の見た目を設定
-        SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();　//スプライトレンダラーの取得
-        spriteRenderer.sprite = itemSprite;                                     //スプライトを適応
-        spriteRenderer.color = predictionPointColor;                            //色を適応
-
         //Debug.Log("予測地点生成");
 
         // LineManagerに3点を登録して放物線描画開始
         LineManager.Instance.SetFlyingPoints(this.gameObject, endObj,preObj);
+    }
+
+    private void Update()
+    {
+        // 予測点の見た目を設定
+        SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();　//スプライトレンダラーの取得
+        spriteRenderer.sprite = GetComponent<SpriteRenderer>().sprite;          //スプライトを適応
+        spriteRenderer.color = predictionPointColor;                            //色を適応
     }
 
     /// <summary>

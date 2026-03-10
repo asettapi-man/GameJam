@@ -14,10 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemDataBase
   datas:
   - itemName: vanillaIceCream
-    money: 50
+    money: 300
     gravity: 1
     sprite: {fileID: -2420664510065762595, guid: 9d3e0835b90d2df47b564e3be9e2d167, type: 3}
-  - itemName: cake
+    clip: {fileID: 0}
+  - itemName: chocolateIceCream
+    money: 300
+    gravity: 1
+    sprite: {fileID: -8556154561557658812, guid: 7ac369af3e16ba64b83a11a3ed781ae4, type: 3}
+    clip: {fileID: 0}
+  - itemName: cottonCandyIceCream
+    money: 300
+    gravity: 1
+    sprite: {fileID: -3822243950059166008, guid: d2a3a0fec77c54d40ae44a6dd158f7ae, type: 3}
+    clip: {fileID: 0}
+  - itemName: chocolateMintIceCream
+    money: 300
+    gravity: 1
+    sprite: {fileID: -4789478352813021637, guid: cc598f68e212a0d45ba3dc8c62b63523, type: 3}
+    clip: {fileID: 0}
+  - itemName: rabbitApple
     money: 100
     gravity: 1
-    sprite: {fileID: 0}
+    sprite: {fileID: 5934105714714851544, guid: 188cf50ec927d53438f03d2b1c83880a, type: 3}
+    clip: {fileID: 0}
+  - itemName: marshmallow
+    money: 100
+    gravity: 1
+    sprite: {fileID: 2928277582954247853, guid: c0c9f261b9dfd794f8dd5df32b5ec416, type: 3}
+    clip: {fileID: 0}
