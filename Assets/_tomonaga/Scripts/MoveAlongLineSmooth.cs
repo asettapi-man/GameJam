@@ -6,10 +6,15 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class MoveAlongLine : MonoBehaviour
 {
-    private LineRenderer line;       // 移動経路となるLineRenderer
-    private Transform target;        // 移動させるオブジェクト
-    public float speed = 5f;        // 移動速度
-    public InputAction clickAction; // クリック入力アクション
+    private LineRenderer line;      // 移動経路となるLineRenderer
+
+    // 移動速度
+    [SerializeField,Header("移動速度"),Range(0,10f)]
+    public float speed = 5f;
+
+    // クリック入力アクション
+    [SerializeField,Header("移動開始のボタンを設定")]
+    public InputAction clickAction; 
 
     private Vector3[] points;       // LineRendererの頂点座標配列
     private int currentIndex = 0;   // 現在向かっている頂点のインデックス
@@ -17,13 +22,17 @@ public class MoveAlongLine : MonoBehaviour
 
     private FlyingItem flyingItem = null;
 
-    // オブジェクトが有効になったとき、入力アクションを登録
+    // オブジェクトが有効になったとき
     void OnEnable()
     {
+        //入力を有効か
         clickAction.Enable();
         clickAction.performed += OnClick;
-        target = transform;
+
+        //ラインレンダラーのリファレンスを入手する
         line = LineManager.Instance.GetParabolaLineRenderer().GetLineRenderer();
+
+        //同オブジェクトが持つFlyingItemコンポーネントの入手
         flyingItem = GetComponent<FlyingItem>();
     }
 
@@ -52,12 +61,6 @@ public class MoveAlongLine : MonoBehaviour
     // 移動を開始する
     void StartMove()
     {
-        // 必要な参照が設定されているか確認
-        if (target == null)
-        {
-            Debug.LogError("Target が設定されていません");
-            return;
-        }
 
         // 必要な参照が設定されているか確認
         if (line == null)
@@ -78,13 +81,13 @@ public class MoveAlongLine : MonoBehaviour
         points = new Vector3[count];
         line.GetPositions(points);
 
-        // targetを始点に配置し、移動を開始
-        target.position = points[0];
+        // アイテムを始点に配置し、移動を開始
+        transform.position = points[0];
         currentIndex = 0;
         isMoving = true;
     }
 
-    // 経路に沿ってtargetを移動させる（Update毎に呼ばれる）
+    // 経路に沿ってアイテムを移動させる（Update毎に呼ばれる）
     void MoveAlongPath()
     {
         // 終点に到達したら移動を終了
@@ -99,14 +102,14 @@ public class MoveAlongLine : MonoBehaviour
         Vector3 end = points[currentIndex + 1];
 
         // 現在の目標頂点へ一定速度で移動
-        target.position = Vector3.MoveTowards(
-            target.position,
+        transform.position = Vector3.MoveTowards(
+            transform.position,
             end,
             speed * Time.deltaTime
         );
 
         // 目標頂点に十分近づいたら次の頂点へ進む
-        if (Vector3.Distance(target.position, end) < 0.01f)
+        if (Vector3.Distance(transform.position, end) < 0.01f)
         {
             currentIndex++;
         }
