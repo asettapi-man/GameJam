@@ -6,7 +6,7 @@ public class LineManager:MonoBehaviour
 {
     public static LineManager Instance { get; private set; }
     
-    private ParabolaLineRenderer lineRenderer;
+    private ParabolaLineRenderer lineRendererRef;
 
     public  GameObject FlyingItemPrafabs;
 
@@ -34,7 +34,7 @@ public class LineManager:MonoBehaviour
     /// <param name="_parabolaLineRenderer"></param>“üŽè‚·‚éƒŠƒtƒ@ƒŒƒ“ƒX
     public void SetParabolaLineRenderer(ParabolaLineRenderer _parabolaLineRenderer)
     {
-        lineRenderer = _parabolaLineRenderer;
+        lineRendererRef = _parabolaLineRenderer;
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class LineManager:MonoBehaviour
     /// </summary>
     public void UpadateLine()
     {
-        lineRenderer.DrawParabola();
+        lineRendererRef.DrawParabola();
     }
 
     void OnClick(InputAction.CallbackContext context)
@@ -52,8 +52,8 @@ public class LineManager:MonoBehaviour
 
     public void SetFlyingPoints(GameObject _flyingItem,GameObject _predictionPoint)
     {
-        FlyingItem = _flyingItem;
-        predictionPoint = _predictionPoint;
+        lineRendererRef.GetFlyingPoints(_flyingItem, _predictionPoint);
+        lineRendererRef.ActiveLine();
     }
 
 }

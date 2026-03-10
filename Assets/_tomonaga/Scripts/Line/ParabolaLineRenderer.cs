@@ -45,12 +45,6 @@ public class ParabolaLineRenderer : MonoBehaviour
         // Particle配列を作成
         particles = new ParticleSystem[segmentCount];
 
-        // 放物線を描画
-        DrawParabola();
-
-        // Particleを配置
-        SpawnParticles();
-
         //マネージャーにリファレンスを渡す
         LineManager.Instance.SetParabolaLineRenderer(this);
     }
@@ -66,6 +60,24 @@ public class ParabolaLineRenderer : MonoBehaviour
     }
 
 
+    public void GetFlyingPoints(GameObject _flyingItem, GameObject _predictionPoint)
+    {
+        startPoint = _flyingItem.transform;
+        endPoint = _predictionPoint.transform;
+
+    }
+
+
+    public void ActiveLine()
+    {
+        // 放物線を描画
+        DrawParabola();
+
+        // Particleを配置
+        SpawnParticles();
+    }
+
+
     /// <summary>
     /// 放物線を計算してLineRendererに設定する
     /// </summary>
@@ -78,17 +90,17 @@ public class ParabolaLineRenderer : MonoBehaviour
             float t = i / (float)(segmentCount - 1);
 
             // startからendまで線形補間
-            //Vector3 position = Vector3.Lerp(startPoint.position, endPoint.position, t);
+            Vector3 position = Vector3.Lerp(startPoint.position, endPoint.position, t);
 
             // 放物線の高さを計算
             // t=0.5で最大になる
             float parabola = 4 * height * (t - t * t);
 
             // Y方向に高さを追加
-            //position.y += parabola;
+            position.y += parabola;
 
             // LineRendererの頂点に設定
-            ///line.SetPosition(i, position);
+            line.SetPosition(i, position);
         }
     }
 
@@ -98,7 +110,7 @@ public class ParabolaLineRenderer : MonoBehaviour
     /// </summary>
     void SpawnParticles()
     {
-        for (int i = 0; i < segmentCount-2; i++)
+        for (int i = 2; i < segmentCount-2; i++)
         {
             // LineRendererの頂点位置を取得
             Vector3 pos = line.GetPosition(i);
