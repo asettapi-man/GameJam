@@ -105,7 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d425429524309ea4cb259e0df195d807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlyingItem
-  predictionPoint: {fileID: 1325858626481567408, guid: c59cedde2029984418cdd77f878819c5, type: 3}
+  predictionPointPrafabs: {fileID: 1325858626481567408, guid: c59cedde2029984418cdd77f878819c5, type: 3}
+  endPointPrafabs: {fileID: 3384560392460932849, guid: dc7f2cc64a310b9478889f55819f7701, type: 3}
   predictionPointColor: {r: 1, g: 1, b: 1, a: 0.3019608}
   itemSprite: {fileID: -6548676402394200069, guid: 68c5aa8dcaf76aa49bb7322bc525d0f8, type: 3}
   predictionDistance: 7
@@ -121,7 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b80b51c3ecf9f64da8f2a814ebd6d43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveAlongLineSmooth
-  line: {fileID: 0}
   speed: 5
   clickAction:
     m_Name: Click

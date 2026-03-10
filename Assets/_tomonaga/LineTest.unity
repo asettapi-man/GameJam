@@ -443,7 +443,7 @@ MonoBehaviour:
   segmentCount: 30
   height: 2
   particlePrefab: {fileID: 2958148841801032207, guid: d8565f0ffd35f3e4d81d0252f3f6fb4b, type: 3}
-  collisionCheckRadius: 5
+  collisionCheckRadius: 0.5
 --- !u!1 &1646135774
 GameObject:
   m_ObjectHideFlags: 0

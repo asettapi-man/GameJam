@@ -15,6 +15,8 @@ public class MoveAlongLine : MonoBehaviour
     private int currentIndex = 0;   // 現在向かっている頂点のインデックス
     private bool isMoving = false;  // 移動中かどうか
 
+    private FlyingItem flyingItem = null;
+
     // オブジェクトが有効になったとき、入力アクションを登録
     void OnEnable()
     {
@@ -22,6 +24,7 @@ public class MoveAlongLine : MonoBehaviour
         clickAction.performed += OnClick;
         target = transform;
         line = LineManager.Instance.GetParabolaLineRenderer().GetLineRenderer();
+        flyingItem = GetComponent<FlyingItem>();
     }
 
     // オブジェクトが無効になったとき、入力アクションを解除（メモリリーク防止）
@@ -85,9 +88,10 @@ public class MoveAlongLine : MonoBehaviour
     void MoveAlongPath()
     {
         // 終点に到達したら移動を終了
-        if (currentIndex >= points.Length - 1)
+        if (currentIndex >= LineManager.Instance.PassConflictSegmentCount() - 1)
         {
             isMoving = false;
+            flyingItem.FinishFlying();
             return;
         }
 

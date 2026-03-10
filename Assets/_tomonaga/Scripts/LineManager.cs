@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,11 +7,13 @@ public class LineManager:MonoBehaviour
 {
     public static LineManager Instance { get; private set; }
     
-    private ParabolaLineRenderer lineRendererRef;
+    private GameObject lineRendererRef;
 
     public  GameObject FlyingItemPrafabs;
 
     private GameObject FlyingItem;
+
+    private GameObject EndPoint;
 
     private GameObject predictionPoint;
 
@@ -32,14 +35,14 @@ public class LineManager:MonoBehaviour
     /// ラインレンダースクリプトのリファレンスを入手する
     /// </summary>
     /// <param name="_parabolaLineRenderer"></param>入手するリファレンス
-    public void SetParabolaLineRenderer(ParabolaLineRenderer _parabolaLineRenderer)
+    public void SetParabolaLineRenderer(GameObject _parabolaLineRenderer)
     {
         lineRendererRef = _parabolaLineRenderer;
     }
 
     public ParabolaLineRenderer GetParabolaLineRenderer()
     {
-        return lineRendererRef;
+        return lineRendererRef.GetComponent<ParabolaLineRenderer>();
     }
     
 
@@ -48,7 +51,7 @@ public class LineManager:MonoBehaviour
     /// </summary>
     public void UpadateLine()
     {
-        lineRendererRef.DrawParabola();
+        lineRendererRef.GetComponent<ParabolaLineRenderer>().ActiveLine();
     }
 
     /// <summary>
@@ -58,7 +61,10 @@ public class LineManager:MonoBehaviour
     void OnClick(InputAction.CallbackContext context)
     {
         if(FlyingItem == null)
-        FlyingItem = Instantiate(FlyingItemPrafabs, new Vector3(0, 0, 0), Quaternion.identity);
+        {
+            FlyingItem = Instantiate(FlyingItemPrafabs, new Vector3(0, 0, 0), Quaternion.identity);
+        }
+        
     }
 
     /// <summary>
@@ -66,15 +72,39 @@ public class LineManager:MonoBehaviour
     /// </summary>
     /// <param name="_flyingItem"></param>
     /// <param name="_predictionPoint"></param>
-    public void SetFlyingPoints(GameObject _flyingItem,GameObject _predictionPoint)
+    public void SetFlyingPoints(GameObject _flyingItem,GameObject _endPoint,GameObject _predictionPoint)
     {
-        lineRendererRef.GetFlyingPoints(_flyingItem, _predictionPoint);
-        lineRendererRef.ActiveLine();
+        FlyingItem = _flyingItem;
+        EndPoint = _endPoint;
+        predictionPoint = _predictionPoint;
+
+        lineRendererRef.GetComponent<ParabolaLineRenderer>().GetFlyingPoints(_flyingItem.transform, _endPoint.transform,_predictionPoint.transform);
+        lineRendererRef.SetActive(true);
+        lineRendererRef.GetComponent<ParabolaLineRenderer>().ActiveLine();
     }
 
-    public void UpdateEndPointPos(Transform transform)
+    public void ReSetFlyingPoints()
     {
-        lineRendererRef.UpdateEndPointPos(transform);
+        FlyingItem = null;
+        EndPoint = null;
+        predictionPoint = null;
+        lineRendererRef.SetActive(false);
+    }
+
+    public void UpdateEndPointsPos(Transform endTransform)
+    {
+        lineRendererRef.GetComponent<ParabolaLineRenderer>().UpdateEndPointPos(endTransform);
+    }
+
+    public void UpdatePredictionPointPos(Vector3 prepos) 
+    {
+        predictionPoint.transform.position = prepos;
+        Debug.Log(prepos);
+    }
+
+    public int PassConflictSegmentCount()
+    {
+        return lineRendererRef.GetComponent<ParabolaLineRenderer>().GetConflictSegmentCount();
     }
 
 }

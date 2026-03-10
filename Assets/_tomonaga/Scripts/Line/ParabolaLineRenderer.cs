@@ -1,5 +1,6 @@
 ﻿using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngineInternal;
 
 /// <summary>
 /// 2つのオブジェクトの間に放物線を描くクラス
@@ -12,8 +13,14 @@ public class ParabolaLineRenderer : MonoBehaviour
     // 放物線の開始位置
     private Transform startPoint;
 
-    // 放物線の終了位置
+    // 放物線の実際の終了位置
     private Transform endPoint;
+
+    // 放物線の終了位置
+    private Transform predictionPoint;
+
+    //衝突した頂点の番号を保存する変数
+    private int conflictSegmentCount = 0;
 
     // LineRendererの分割数（多いほど滑らか）
     public int segmentCount = 30;
@@ -48,7 +55,7 @@ public class ParabolaLineRenderer : MonoBehaviour
         particles = new ParticleSystem[segmentCount];
 
         //マネージャーにリファレンスを渡す
-        LineManager.Instance.SetParabolaLineRenderer(this);
+        LineManager.Instance.SetParabolaLineRenderer(gameObject);
     }
 
 
@@ -62,11 +69,11 @@ public class ParabolaLineRenderer : MonoBehaviour
     }
 
 
-    public void GetFlyingPoints(GameObject _flyingItem, GameObject _predictionPoint)
+    public void GetFlyingPoints(Transform _flyingItem, Transform _endPoint ,Transform _predictionPoint)
     {
-        startPoint = _flyingItem.transform;
-        endPoint = _predictionPoint.transform;
-
+        startPoint = _flyingItem;
+        endPoint = _endPoint;
+        predictionPoint = _predictionPoint;
     }
 
 
@@ -78,7 +85,6 @@ public class ParabolaLineRenderer : MonoBehaviour
         // Particleを配置
         SpawnParticles();
 
-
     }
 
 
@@ -87,6 +93,8 @@ public class ParabolaLineRenderer : MonoBehaviour
     /// </summary>
     public void DrawParabola()
     {
+        
+
         // segmentCount分だけ頂点を計算
         for (int i = 0; i < segmentCount; i++)
         {
@@ -106,7 +114,8 @@ public class ParabolaLineRenderer : MonoBehaviour
             // LineRendererの頂点に設定
             line.SetPosition(i, position);
         }
-        // 終点の衝突を回避
+
+        // 衝突を検知
         AdjustEndPointPosition();
     }
 
@@ -116,16 +125,26 @@ public class ParabolaLineRenderer : MonoBehaviour
     /// </summary>
     void SpawnParticles()
     {
-        for (int i = 2; i < segmentCount-2; i++)
+        // 既存のパーティクルを全部破棄してからリセット
+        ClearParticles();
+
+        for (int i = 2; i < conflictSegmentCount - 2; i++)
         {
-            // LineRendererの頂点位置を取得
             Vector3 pos = line.GetPosition(i);
-
-            // Particleを生成
             ParticleSystem particle = Instantiate(particlePrefab, pos, Quaternion.identity, transform);
-
-            // 配列に保存
             particles[i] = particle;
+        }
+    }
+
+    void ClearParticles()
+    {
+        for (int i = 0; i < particles.Length; i++)
+        {
+            if (particles[i] != null)
+            {
+                Destroy(particles[i].gameObject);
+                particles[i] = null;
+            }
         }
     }
 
@@ -153,35 +172,36 @@ public class ParabolaLineRenderer : MonoBehaviour
 
     void AdjustEndPointPosition()
     {
-
-        // 終点が衝突していない場合は、Y座標を始点と同じにする
+        
+        // 接触点が存在しない場合は終点が予測地点になる
         if (!Physics2D.OverlapCircle(endPoint.position, collisionCheckRadius))
         {
-            Vector3 adjustedPos = endPoint.position;
-            adjustedPos.y = startPoint.position.y;
-            endPoint.position = adjustedPos;
+           
+            conflictSegmentCount = segmentCount;
+            LineManager.Instance.UpdatePredictionPointPos(endPoint.position);
             return;
         }
 
+        
 
-        Debug.Log("衝突したよ");
-
-        // 放物線の頂点を終点側から逆順にチェック
-        for (int i = segmentCount - 1; i >= 0; i--)
+        // 放物線の頂点を始点側からチェック
+        for (int i = 0; i < segmentCount-1; i++)
         {
-            Vector3 candidatePos = line.GetPosition(i);
+        
+            Vector3 checkConflictPos = line.GetPosition(i);
 
             // この位置で衝突判定
-            if (!Physics2D.OverlapCircle(candidatePos, collisionCheckRadius))
+            if (Physics2D.OverlapCircle(checkConflictPos, collisionCheckRadius))
             {
-                // 衝突しない位置を発見
-                endPoint.position = candidatePos;
+                // 衝突した位置を発見
+                LineManager.Instance.UpdatePredictionPointPos(line.GetPosition(Mathf.Max(0, i - 1)));
 
-                // 放物線を再描画（終点が移動したため）
-                DrawParabola();
+                conflictSegmentCount = i;
 
                 return;
             }
+
+
         }
 
         // すべての頂点で衝突している場合の処理
@@ -195,5 +215,11 @@ public class ParabolaLineRenderer : MonoBehaviour
     public void UpdateEndPointPos(Transform transform)
     {
         endPoint.position = transform.position;
+    }
+
+
+    public int GetConflictSegmentCount()
+    {
+        return conflictSegmentCount;
     }
 }
