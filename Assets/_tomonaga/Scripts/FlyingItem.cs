@@ -24,7 +24,7 @@ public class FlyingItem : MonoBehaviour
     private Sprite itemSprite;
 
     // 終点までの初期距離
-    [SerializeField, Header("予測地点までの距離"), Range(0, 100)]
+    [SerializeField, Header("予測地点までの距離"), Range(0, 20)]
     private int predictionDistance;
 
     // 生成した終点オブジェクトへの参照

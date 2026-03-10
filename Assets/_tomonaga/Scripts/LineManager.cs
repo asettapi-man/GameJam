@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,8 +13,12 @@ public class LineManager:MonoBehaviour
     // 放物線描画を行うGameObjectへの参照
     private GameObject lineRendererRef;
 
+    //上記オブジェクトが持つコンポーネントへの参照
+    private ParabolaLineRenderer lineRendererComponentRef;
+
     // 投げるアイテムのプレハブ
-    public  GameObject FlyingItemPrafabs;
+    [SerializeField,Header("投げるアイテムのプレハブ")]
+    private  GameObject FlyingItemPrafabs;
 
     // 現在飛行中のアイテム
     private GameObject FlyingItem;
@@ -27,7 +30,8 @@ public class LineManager:MonoBehaviour
     private GameObject predictionPoint;
 
     // クリック入力を受け取るアクション
-    public InputAction pushAction; // �N���b�N���̓A�N�V����
+    [SerializeField,Header("アイテム生成のボタンを設定")]
+    private InputAction pushAction; 
 
     /// <summary>
     /// シングルトンの初期化
@@ -54,6 +58,7 @@ public class LineManager:MonoBehaviour
     public void SetParabolaLineRenderer(GameObject _parabolaLineRenderer)
     {
         lineRendererRef = _parabolaLineRenderer;
+        lineRendererComponentRef = lineRendererRef.GetComponent<ParabolaLineRenderer>();
     }
 
     /// <summary>
@@ -62,7 +67,7 @@ public class LineManager:MonoBehaviour
     /// <returns>ParabolaLineRendererコンポーネント</returns>
     public ParabolaLineRenderer GetParabolaLineRenderer()
     {
-        return lineRendererRef.GetComponent<ParabolaLineRenderer>();
+        return lineRendererComponentRef;
     }
 
 
@@ -71,7 +76,7 @@ public class LineManager:MonoBehaviour
     /// </summary>
     public void UpadateLine()
     {
-        lineRendererRef.GetComponent<ParabolaLineRenderer>().ActiveLine();
+        lineRendererComponentRef.ActiveLine();
     }
 
     /// <summary>
@@ -100,9 +105,9 @@ public class LineManager:MonoBehaviour
         EndPoint = _endPoint;
         predictionPoint = _predictionPoint;
 
-        lineRendererRef.GetComponent<ParabolaLineRenderer>().GetFlyingPoints(_flyingItem.transform, _endPoint.transform,_predictionPoint.transform);
+        lineRendererComponentRef.GetFlyingPoints(_flyingItem.transform, _endPoint.transform,_predictionPoint.transform);
         lineRendererRef.SetActive(true);
-        lineRendererRef.GetComponent<ParabolaLineRenderer>().ActiveLine();
+        lineRendererComponentRef.ActiveLine();
     }
 
     /// <summary>
@@ -122,7 +127,7 @@ public class LineManager:MonoBehaviour
     /// <param name="endTransform">新しい終点のTransform</param>
     public void UpdateEndPointsPos(Transform endTransform)
     {
-        lineRendererRef.GetComponent<ParabolaLineRenderer>().UpdateEndPointPos(endTransform);
+        lineRendererComponentRef.UpdateEndPointPos(endTransform);
     }
 
     /// <summary>
@@ -132,7 +137,6 @@ public class LineManager:MonoBehaviour
     public void UpdatePredictionPointPos(Vector3 prepos)
     {
         predictionPoint.transform.position = prepos;
-        Debug.Log(prepos);
     }
 
     /// <summary>
@@ -141,7 +145,7 @@ public class LineManager:MonoBehaviour
     /// <returns>衝突した頂点のインデックス（衝突なしの場合はsegmentCount）</returns>
     public int PassConflictSegmentCount()
     {
-        return lineRendererRef.GetComponent<ParabolaLineRenderer>().GetConflictSegmentCount();
+        return lineRendererComponentRef.GetConflictSegmentCount();
     }
 
 }

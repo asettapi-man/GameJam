@@ -9,7 +9,8 @@ using UnityEngine.InputSystem;
 public class MouseWheelHorizontalMove : MonoBehaviour
 {
     // X軸方向の移動速度倍率
-    public float moveSpeed = 0.01f;
+    [SerializeField,Header("ホイール操作時の移動倍率"),Range(0,0.1f)]
+    private float moveSpeed = 0.01f;
 
     /// <summary>
     /// 毎フレーム実行される処理

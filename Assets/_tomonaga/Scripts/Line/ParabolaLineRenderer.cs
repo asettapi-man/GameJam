@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// 2つのオブジェクトの間に放物線を描くクラス
@@ -22,10 +21,12 @@ public class ParabolaLineRenderer : MonoBehaviour
     private int conflictSegmentCount = 0;
 
     // LineRendererの分割数（多いほど滑らか）
-    public int segmentCount = 30;
+    [SerializeField,Header("頂点の数（多いほどなめらか）"),Range(10,100)]
+    private int segmentCount = 30;
 
     // 放物線の高さ
-    public float height = 2f;
+    [SerializeField, Header("放物線の高さ"), Range(1f, 5f)]
+    private float height = 2f;
 
     // 軌道上に配置するParticle
     public ParticleSystem particlePrefab;
