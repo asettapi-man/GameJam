@@ -37,6 +37,12 @@ public class LineManager:MonoBehaviour
         lineRendererRef = _parabolaLineRenderer;
     }
 
+    public ParabolaLineRenderer GetParabolaLineRenderer()
+    {
+        return lineRendererRef;
+    }
+    
+
     /// <summary>
     /// ƒ‰ƒCƒ“‚ÌXV
     /// </summary>

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7384968212938577927}
   - component: {fileID: 3648064246364785239}
   - component: {fileID: 1293749636009177385}
+  - component: {fileID: 7282572041452655928}
   m_Layer: 0
   m_Name: FlyingItem
   m_TagString: Untagged
@@ -108,3 +109,34 @@ MonoBehaviour:
   predictionPointColor: {r: 1, g: 1, b: 1, a: 0.3019608}
   itemSprite: {fileID: -6548676402394200069, guid: 68c5aa8dcaf76aa49bb7322bc525d0f8, type: 3}
   predictionDistance: 7
+--- !u!114 &7282572041452655928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3836154031407709106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b80b51c3ecf9f64da8f2a814ebd6d43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MoveAlongLineSmooth
+  line: {fileID: 0}
+  speed: 5
+  clickAction:
+    m_Name: Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 106886f5-4af8-44b1-a7ee-1800bf127df4
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 8395d14b-76a4-4bbb-8ba0-17eeda729d6b
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Click
+      m_Flags: 0
+    m_Flags: 0

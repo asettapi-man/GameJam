@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class MoveAlongLine : MonoBehaviour
 {
-    public LineRenderer line;       // 移動経路となるLineRenderer
+    private LineRenderer line;       // 移動経路となるLineRenderer
     private Transform target;        // 移動させるオブジェクト
     public float speed = 5f;        // 移動速度
     public InputAction clickAction; // クリック入力アクション
@@ -20,6 +20,8 @@ public class MoveAlongLine : MonoBehaviour
     {
         clickAction.Enable();
         clickAction.performed += OnClick;
+        target = transform;
+        line = LineManager.Instance.GetParabolaLineRenderer().GetLineRenderer();
     }
 
     // オブジェクトが無効になったとき、入力アクションを解除（メモリリーク防止）
@@ -48,9 +50,16 @@ public class MoveAlongLine : MonoBehaviour
     void StartMove()
     {
         // 必要な参照が設定されているか確認
-        if (line == null || target == null)
+        if (target == null)
         {
-            Debug.LogError("Line または Target が設定されていません");
+            Debug.LogError("Target が設定されていません");
+            return;
+        }
+
+        // 必要な参照が設定されているか確認
+        if (line == null)
+        {
+            Debug.LogError("Lineが設定されていません");
             return;
         }
 

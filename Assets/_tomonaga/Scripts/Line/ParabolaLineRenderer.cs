@@ -139,4 +139,9 @@ public class ParabolaLineRenderer : MonoBehaviour
             }
         }
     }
+
+    public LineRenderer GetLineRenderer()
+    {
+        return line;
+    }
 }
