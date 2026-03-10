@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: ItemData
   m_EditorClassIdentifier: Assembly-CSharp::ItemDataBase
   datas:
-  - itemName: ice
+  - itemName: vanillaIceCream
     money: 50
     gravity: 1
-    sprite: {fileID: 6124224083726815663, guid: 6ffe16426744c334ba33ddd007853358, type: 3}
+    sprite: {fileID: -2420664510065762595, guid: 9d3e0835b90d2df47b564e3be9e2d167, type: 3}
   - itemName: cake
     money: 100
     gravity: 1

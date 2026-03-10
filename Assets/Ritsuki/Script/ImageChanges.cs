@@ -1,21 +1,34 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 
 public class ImageChanges : MonoBehaviour
 {
-    public Image displayImage;      // 画像を表示するUIのImageコンポーネント
-    public Sprite[] sprites;        // 切り替える画像をまとめた配列
-    public float interval = 2.0f;   // 切り替え間隔（秒）
+    [SerializeField] private Image displayImage;      // 画像を表示するUIのImageコンポーネント
+    [SerializeField] private Sprite[] sprites;        // 切り替える画像をまとめた配列
+    [SerializeField] private float interval = 2.0f;   // 切り替え間隔（秒）
 
-    void Start()
+    private Coroutine coroutine;
+
+    private void Awake()
     {
-        //処理を途中で一時停止してから、再開できる
-        StartCoroutine(AutoSwitch());
+        //コルーチン開始
+        coroutine = StartCoroutine(AutoSwitch());
     }
 
-    IEnumerator AutoSwitch()
+    private void Update()
+    {
+        //左クリックを押したらコルーチンを止める
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Debug.Log("左クリックした！");
+            StopCoroutine(coroutine);
+        }
+    }
+
+    private IEnumerator AutoSwitch()
     {
         //無限ループで画像を切り替える
         while (true)
@@ -23,6 +36,8 @@ public class ImageChanges : MonoBehaviour
 
             //画像をランダムにする
             int index = Random.Range(0, sprites.Length);
+
+            Debug.Log($"乱数：{index}");
 
             //現在の画像を表示する
             displayImage.sprite = sprites[index];
