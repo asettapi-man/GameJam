@@ -10,11 +10,11 @@ public class MoveAlongLine : MonoBehaviour
 
     // 移動速度
     [SerializeField,Header("移動速度"),Range(0,10f)]
-    public float speed = 5f;
+    private float speed = 5f;
 
     // クリック入力アクション
     [SerializeField,Header("移動開始のボタンを設定")]
-    public InputAction clickAction; 
+    private InputAction clickAction; 
 
     private Vector3[] points;       // LineRendererの頂点座標配列
     private int currentIndex = 0;   // 現在向かっている頂点のインデックス
