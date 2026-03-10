@@ -72,4 +72,9 @@ public class LineManager:MonoBehaviour
         lineRendererRef.ActiveLine();
     }
 
+    public void UpdateEndPointPos(Transform transform)
+    {
+        lineRendererRef.UpdateEndPointPos(transform);
+    }
+
 }

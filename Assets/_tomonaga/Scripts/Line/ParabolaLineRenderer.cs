@@ -30,6 +30,8 @@ public class ParabolaLineRenderer : MonoBehaviour
     // 生成したParticleを管理する配列
     private ParticleSystem[] particles;
 
+    public float collisionCheckRadius = 0.5f;
+
 
     /// <summary>
     /// 初期化処理
@@ -75,6 +77,8 @@ public class ParabolaLineRenderer : MonoBehaviour
 
         // Particleを配置
         SpawnParticles();
+
+
     }
 
 
@@ -102,6 +106,8 @@ public class ParabolaLineRenderer : MonoBehaviour
             // LineRendererの頂点に設定
             line.SetPosition(i, position);
         }
+        // 終点の衝突を回避
+        AdjustEndPointPosition();
     }
 
 
@@ -143,5 +149,51 @@ public class ParabolaLineRenderer : MonoBehaviour
     public LineRenderer GetLineRenderer()
     {
         return line;
+    }
+
+    void AdjustEndPointPosition()
+    {
+
+        // 終点が衝突していない場合は、Y座標を始点と同じにする
+        if (!Physics2D.OverlapCircle(endPoint.position, collisionCheckRadius))
+        {
+            Vector3 adjustedPos = endPoint.position;
+            adjustedPos.y = startPoint.position.y;
+            endPoint.position = adjustedPos;
+            return;
+        }
+
+
+        Debug.Log("衝突したよ");
+
+        // 放物線の頂点を終点側から逆順にチェック
+        for (int i = segmentCount - 1; i >= 0; i--)
+        {
+            Vector3 candidatePos = line.GetPosition(i);
+
+            // この位置で衝突判定
+            if (!Physics2D.OverlapCircle(candidatePos, collisionCheckRadius))
+            {
+                // 衝突しない位置を発見
+                endPoint.position = candidatePos;
+
+                // 放物線を再描画（終点が移動したため）
+                DrawParabola();
+
+                return;
+            }
+        }
+
+        // すべての頂点で衝突している場合の処理
+        Debug.LogWarning("放物線全体が衝突しています");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="transform"></param>
+    public void UpdateEndPointPos(Transform transform)
+    {
+        endPoint.position = transform.position;
     }
 }

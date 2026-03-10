@@ -40,5 +40,6 @@ public class MouseWheelHorizontalMove : MonoBehaviour
         transform.position = pos;
 
         LineManager.Instance.UpadateLine();
+        LineManager.Instance.UpdateEndPointPos(transform);
     }
 }
