@@ -12,6 +12,7 @@ public class ItemDataBase : ScriptableObject
         [Tooltip("お金（スコア用）")] public int money;
         [Tooltip("重さ")]             public float gravity;
         [Tooltip("画像")]             public Sprite sprite;
+        [Tooltip("効果音")]           public AudioClip clip;
     }
 
     [Tooltip("投擲物の情報データベース")]
@@ -25,7 +26,30 @@ public class ItemDataBase : ScriptableObject
         return data != null ? data : null;
     }
 
+    /// <summary>
+    /// アイテム別の個数の合計を取得
+    /// </summary>
+    /// <param name="itemName">投擲物名</param>
+    /// <param name="itemDatas">取得したアイテムのデータ</param>
+    /// <returns>名前別の合計個数を返す</returns>
+    public int GetItemDataCount(string itemName, List<ItemData> itemDatas)
+    {
+        //合計個数用
+        int counter = 0;
 
+        //データの中身を全て確認
+        foreach (var data in itemDatas)
+        {
+            //データと名前が一致しているか？
+            if (itemName != data.itemName) continue;
+
+            //一致してたらインクリメント
+            counter++;
+        }
+
+        //合計個数を返す
+        return counter;
+    }
 
     /// <summary>
     /// 投擲物名別合計金額の取得
@@ -33,7 +57,7 @@ public class ItemDataBase : ScriptableObject
     /// <param name="itemName">投擲物名</param>
     /// <param name="itemDatas">集計したアイテムのデータ</param>
     /// <returns>名前別の合計金額を返す</returns>
-    public int GetTotalAmountByItem(string itemName, List<ItemData> itemDatas)
+    private int GetTotalAmountByItem(string itemName, List<ItemData> itemDatas)
     {
         //合計金額用
         int totalAmount = 0;
