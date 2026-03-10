@@ -2,22 +2,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// �}�E�X�z�C�[�����͂����m������֐����Ăяo���A
-/// ���̓��͗ʂɉ����ăI�u�W�F�N�g�����E�Ɉړ�������
+/// マウスホイール入力を検知してオブジェクトを左右に移動させるスクリプト
+/// 終点（EndPoint）または予測点（PredictionPoint）にアタッチして使用
+/// 移動時に放物線の再描画と終点位置の更新を行う
 /// </summary>
 public class MouseWheelHorizontalMove : MonoBehaviour
 {
-    // �ړ����x�{��
+    // X軸方向の移動速度倍率
     public float moveSpeed = 0.01f;
 
+    /// <summary>
+    /// 毎フレーム実行される処理
+    /// マウスホイールの入力を監視
+    /// </summary>
     void Update()
     {
-        // �}�E�X�z�C�[���̃X�N���[���ʂ��擾
+        // マウスホイールのスクロール量を取得
         Vector2 scroll = Mouse.current.scroll.ReadValue();
 
         float scrollAmount = scroll.y;
 
-        // ���͂��������Ƃ��̂݊֐����Ăяo��
+        // 入力があった時のみ移動処理を実行
         if (scrollAmount != 0)
         {
             MoveObject(scrollAmount);
@@ -25,21 +30,25 @@ public class MouseWheelHorizontalMove : MonoBehaviour
     }
 
     /// <summary>
-    /// �I�u�W�F�N�g�����E�Ɉړ�������֐�
+    /// オブジェクトをX軸方向に移動させる処理
+    /// 移動後に放物線の再描画と終点位置の更新を実行
     /// </summary>
-    /// <param name="input">�z�C�[�����͒l</param>
+    /// <param name="input">マウスホイールの入力値（正：上回転、負：下回転）</param>
     void MoveObject(float input)
     {
-        // ���݈ʒu�擾
+        // 現在位置を取得
         Vector3 pos = transform.position;
 
-        // X�����Ɉړ�
+        // X座標を入力量×速度分だけ移動
         pos.x += input * moveSpeed;
 
-        // �ʒu�X�V
+        // 位置を更新
         transform.position = pos;
 
+        // 放物線を再描画
         LineManager.Instance.UpadateLine();
+
+        // 終点の位置を更新（このtransformが終点または予測点）
         LineManager.Instance.UpdateEndPointsPos(transform);
     }
 }

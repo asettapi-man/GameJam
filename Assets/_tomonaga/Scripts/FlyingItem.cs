@@ -1,51 +1,81 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+/// <summary>
+/// 投げられるアイテムを管理するクラス
+/// 生成時に終点と予測点を作成し、放物線描画を開始
+/// 飛行終了時は物理演算を有効化し、放物線を削除
+/// </summary>
 public class FlyingItem : MonoBehaviour
 {
-    [SerializeField,Header("�\���n�_�p�I�u�W�F�N�g")] 
+    // 予測着地点のプレハブ
+    [SerializeField,Header("予測地点用オブジェクト")]
     private GameObject predictionPointPrafabs;
 
-    [SerializeField, Header("�I�_�p�I�u�W�F�N�g")]
+    // マウスホイールで移動する終点のプレハブ
+    [SerializeField, Header("終点用オブジェクト")]
     private GameObject endPointPrafabs;
 
-    [SerializeField, Header("�\���n�_�p�I�u�W�F�N�g�F")]
+    // 予測着地点の表示色
+    [SerializeField, Header("予測地点用オブジェクト色")]
     private Color predictionPointColor;
 
-    [SerializeField, Header("(���u��)�A�C�e���摜")]
+    // アイテムに表示するスプライト
+    [SerializeField, Header("(暫定版)アイテム画像")]
     private Sprite itemSprite;
 
-    [SerializeField, Header("�\���n�_�܂ł̋���"), Range(0, 100)]
+    // 終点までの初期距離
+    [SerializeField, Header("予測地点までの距離"), Range(0, 100)]
     private int predictionDistance;
 
+    // 生成した終点オブジェクトへの参照
     private GameObject endObj;
 
+    // 生成した予測点オブジェクトへの参照
     private GameObject preObj;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    /// <summary>
+    /// 初期化処理
+    /// 終点と予測点を生成し、放物線描画を開始
+    /// </summary>
     void Start()
     {
-        // ���������I�u�W�F�N�g��ϐ��ɓ���đ��삷��
+        // 終点と予測点のオブジェクトを生成
         endObj = Instantiate(endPointPrafabs, new Vector3(predictionDistance, 0, 0), Quaternion.identity);
         preObj = Instantiate(predictionPointPrafabs, new Vector3(predictionDistance, 0, 0), Quaternion.identity);
-        SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = itemSprite;
-        spriteRenderer.color = predictionPointColor;
-        Debug.Log("�\���n�_����");
 
+        // 予測点の見た目を設定
+        SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();　//スプライトレンダラーの取得
+        spriteRenderer.sprite = itemSprite;                                     //スプライトを適応
+        spriteRenderer.color = predictionPointColor;                            //色を適応
+
+        //Debug.Log("予測地点生成");
+
+        // LineManagerに3点を登録して放物線描画開始
         LineManager.Instance.SetFlyingPoints(this.gameObject, endObj,preObj);
     }
 
+    /// <summary>
+    /// 飛行終了時の処理
+    /// 放物線移動を停止し、物理演算を有効化
+    /// 終点と予測点のオブジェクトを削除
+    /// </summary>
     public void FinishFlying()
     {
+        // 放物線移動スクリプトを削除
         Destroy(GetComponent<MoveAlongLine>());
+
+        // 物理演算を有効化（自由落下開始）
         gameObject.AddComponent<Rigidbody2D>();
         gameObject.AddComponent<PolygonCollider2D>();
+
+        // このスクリプト自体を削除
         Destroy(GetComponent<FlyingItem>());
 
+        // LineManagerの参照をリセットし、放物線を非表示
         LineManager.Instance.ReSetFlyingPoints();
+
+        // 終点と予測点のオブジェクトを削除
         Destroy(endObj);
         Destroy(preObj);
     }
