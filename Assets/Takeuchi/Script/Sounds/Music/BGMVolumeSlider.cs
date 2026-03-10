@@ -20,12 +20,10 @@ public class BGMVolumeSlider : MonoBehaviour
         // 同じオブジェクトについているSliderコンポーネントを取得
         slider = GetComponent<Slider>();
 
-        // SoundManagerに保存されている現在のBGM音量を取得し
-        // スライダーの初期値として設定する（ゲーム起動時の同期）
+// SoundManagerに保存されている現在のBGM音量を取得し,スライダーの初期値として設定する（ゲーム起動時の同期）
         slider.value = SoundManager.Instance.GetBGMVolume();
 
-        // スライダーの値が変更されたときに呼ばれるイベントを登録
-        // スライダーを動かすとChangeVolume関数が実行される
+// スライダーの値が変更されたときに呼ばれるイベントを登録,スライダーを動かすとChangeVolume関数が実行される
         slider.onValueChanged.AddListener(ChangeVolume);
     }
 
