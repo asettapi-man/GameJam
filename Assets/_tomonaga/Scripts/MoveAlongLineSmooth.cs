@@ -14,13 +14,13 @@ public class MoveAlongLine : MonoBehaviour
 
     // クリック入力アクション
     [SerializeField,Header("移動開始のボタンを設定")]
-    public InputAction clickAction; 
+    public InputAction clickAction;
 
     private Vector3[] points;       // LineRendererの頂点座標配列
     private int currentIndex = 0;   // 現在向かっている頂点のインデックス
-    private bool isMoving = false;  // 移動中かどうか
 
     private FlyingItem flyingItem = null;
+    private ImageChanges imageChanges = null;
 
     // オブジェクトが有効になったとき
     void OnEnable()
@@ -32,8 +32,9 @@ public class MoveAlongLine : MonoBehaviour
         //ラインレンダラーのリファレンスを入手する
         line = LineManager.Instance.GetParabolaLineRenderer().GetLineRenderer();
 
-        //同オブジェクトが持つFlyingItemコンポーネントの入手
+        //同オブジェクトが持つコンポーネントの入手
         flyingItem = GetComponent<FlyingItem>();
+        imageChanges = GetComponent<ImageChanges>();
     }
 
     // オブジェクトが無効になったとき、入力アクションを解除（メモリリーク防止）
@@ -46,7 +47,7 @@ public class MoveAlongLine : MonoBehaviour
     void Update()
     {
         // 移動中のみ経路移動処理を実行
-        if (isMoving)
+        if (LineManager.Instance.isMoving)
         {
             MoveAlongPath();
         }
@@ -55,13 +56,17 @@ public class MoveAlongLine : MonoBehaviour
     // クリック入力があったとき呼ばれるコールバック
     void OnClick(InputAction.CallbackContext context)
     {
-        StartMove();
+        //移動中なら再度クリック不可
+        if (!LineManager.Instance.isMoving)
+        {
+            flyingItem.SetItemData(imageChanges.currentData);
+            StartMove();
+        }
     }
 
     // 移動を開始する
     void StartMove()
     {
-
         // 必要な参照が設定されているか確認
         if (line == null)
         {
@@ -84,7 +89,8 @@ public class MoveAlongLine : MonoBehaviour
         // アイテムを始点に配置し、移動を開始
         transform.position = points[0];
         currentIndex = 0;
-        isMoving = true;
+        LineManager.Instance.isMoving = true;
+
     }
 
     // 経路に沿ってアイテムを移動させる（Update毎に呼ばれる）
@@ -93,7 +99,7 @@ public class MoveAlongLine : MonoBehaviour
         // 終点に到達したら移動を終了
         if (currentIndex >= LineManager.Instance.PassConflictSegmentCount() - 1)
         {
-            isMoving = false;
+            LineManager.Instance.isMoving = false;
             flyingItem.FinishFlying();
             return;
         }

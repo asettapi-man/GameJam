@@ -28,7 +28,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         Debug.Log($"{itemName}‚Ì‡Œv:{counter}");
 
         //‰æ‘œ‚Ìİ’è
-        var data = itemDataBase.GetItemData(itemName);
-        image.sprite = data.sprite;
+        //var data = itemDataBase.GetItemData(itemName);
+        //image.sprite = data.sprite;
     }
 }

@@ -29,9 +29,9 @@ public class LineManager:MonoBehaviour
     // 予測着地点を表示するオブジェクト
     private GameObject predictionPoint;
 
-    // クリック入力を受け取るアクション
-    [SerializeField,Header("アイテム生成のボタンを設定")]
-    private InputAction pushAction; 
+    //投げるアイテムが移動中フラグ
+    [HideInInspector]
+    public bool isMoving = false;
 
     /// <summary>
     /// シングルトンの初期化
@@ -46,8 +46,12 @@ public class LineManager:MonoBehaviour
     /// </summary>
     private void Start()
     {
-        pushAction.Enable();
-        pushAction.performed += OnClick;
+        //新規作成
+        if (FlyingItem == null)
+        {
+            Vector3 selfpos = transform.position;
+            FlyingItem = Instantiate(FlyingItemPrafabs, selfpos, Quaternion.identity);
+        }
     }
 
 
@@ -80,20 +84,6 @@ public class LineManager:MonoBehaviour
     }
 
     /// <summary>
-    /// クリック時の処理（FlyingItemを生成）
-    /// </summary>
-    /// <param name="context">入力アクションのコンテキスト</param>
-    void OnClick(InputAction.CallbackContext context)
-    {
-        if(FlyingItem == null)
-        {
-           Vector3 selfpos=transform.position;
-           FlyingItem = Instantiate(FlyingItemPrafabs,selfpos, Quaternion.identity);
-        }
-
-    }
-
-    /// <summary>
     /// 飛行に関わる3つのポイント（始点・終点・予測点）を設定し、放物線を描画開始
     /// </summary>
     /// <param name="_flyingItem">飛行するアイテム（始点）</param>
@@ -119,6 +109,13 @@ public class LineManager:MonoBehaviour
         EndPoint = null;
         predictionPoint = null;
         lineRendererRef.SetActive(false);
+
+        //新規作成
+        if (FlyingItem == null)
+        {
+            Vector3 selfpos = transform.position;
+            FlyingItem = Instantiate(FlyingItemPrafabs, selfpos, Quaternion.identity);
+        }
     }
 
     /// <summary>

@@ -584,11 +584,56 @@ Transform:
   m_GameObject: {fileID: 748708184}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.67, y: 1.88, z: 0}
+  m_LocalPosition: {x: -7.67, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1821183260}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1355072862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1355072864}
+  - component: {fileID: 1355072863}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1355072863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355072862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9741fa20353b714294956bef98f9221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  itemDatas: []
+--- !u!4 &1355072864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355072862}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.27401, y: -0.15483, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1814412790
@@ -646,15 +691,26 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0.05
   m_Points:
-  - {x: -11.391334, y: 2.4583368}
-  - {x: -10.15427, y: 1.0903158}
-  - {x: -7.6012454, y: -0.23031151}
-  - {x: -4.47356, y: -0.9522251}
-  - {x: 0.20970821, y: -1.323025}
-  - {x: 4.7907457, y: -0.8634434}
-  - {x: 8.609028, y: 0.19032085}
-  - {x: 10.840806, y: 1.8773999}
-  - {x: 11.450335, y: 2.5566702}
+  - {x: -11.324616, y: 2.4694567}
+  - {x: -10.952875, y: 2.093062}
+  - {x: -10.287703, y: 1.3460639}
+  - {x: -9.75043, y: 0.9188702}
+  - {x: -9.188163, y: 0.5751481}
+  - {x: -7.569022, y: -0.14169788}
+  - {x: -6.1744137, y: -0.5491004}
+  - {x: -4.489671, y: -0.9038905}
+  - {x: -2.777867, y: -1.1139164}
+  - {x: -0.84117234, y: -1.2331233}
+  - {x: 0.056649446, y: -1.2666342}
+  - {x: 1.9696325, y: -1.198853}
+  - {x: 4.275176, y: -0.9762249}
+  - {x: 6.4132905, y: -0.5404291}
+  - {x: 7.540264, y: -0.19504404}
+  - {x: 8.681529, y: 0.23059988}
+  - {x: 9.710889, y: 0.7984271}
+  - {x: 10.458635, y: 1.4443173}
+  - {x: 11.179148, y: 2.2157426}
+  - {x: 11.377832, y: 2.4519448}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -778,23 +834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LineManager
   FlyingItemPrafabs: {fileID: 3836154031407709106, guid: 807ddfb7be6b5694281826f1cad1d3f2, type: 3}
-  pushAction:
-    m_Name: Push
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 7462ca5b-3be0-4b21-bbcc-9c40b911a6d4
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 49f95297-9e9f-423c-ae81-57786bd15b5a
-      m_Path: <Keyboard>/space
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Push
-      m_Flags: 0
-    m_Flags: 0
+  isMoving: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -804,3 +844,4 @@ SceneRoots:
   - {fileID: 1814412793}
   - {fileID: 748708186}
   - {fileID: 667002621}
+  - {fileID: 1355072864}
