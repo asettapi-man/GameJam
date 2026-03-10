@@ -45,11 +45,21 @@ public class LineManager:MonoBehaviour
         lineRendererRef.DrawParabola();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="context"></param>
     void OnClick(InputAction.CallbackContext context)
     {
-        Instantiate(FlyingItemPrafabs, new Vector3(0, 0, 0), Quaternion.identity);
+        if(FlyingItem == null)
+        FlyingItem = Instantiate(FlyingItemPrafabs, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_flyingItem"></param>
+    /// <param name="_predictionPoint"></param>
     public void SetFlyingPoints(GameObject _flyingItem,GameObject _predictionPoint)
     {
         lineRendererRef.GetFlyingPoints(_flyingItem, _predictionPoint);
