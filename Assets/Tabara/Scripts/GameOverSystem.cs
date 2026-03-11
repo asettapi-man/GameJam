@@ -37,6 +37,4 @@ public class GameOverSystem : MonoBehaviour
         GameManager.Instance.isGameOver = true;
         resultObj.alpha = 1;
     }
-
-    private 
 }
