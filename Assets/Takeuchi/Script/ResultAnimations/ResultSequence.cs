@@ -39,7 +39,7 @@ public class ResultSequence : MonoBehaviour
 
     void Update()
     {
-        if (debug && !isPlaying)
+        if (GameManager.Instance.isGameover && !isPlaying)
         {
             isPlaying = true;
             StartCoroutine(PlaySequence());

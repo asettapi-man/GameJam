@@ -4,6 +4,15 @@ using static ItemDataBase;
 
 public class GameOverSystem : MonoBehaviour
 {
+    [SerializeField, Tooltip("リザルト画面")]
+    private GameObject resultObj;
+
+    private void Awake()
+    {
+        //非表示
+        resultObj.SetActive(false);
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         //アイテムタグを持っているか？
@@ -22,5 +31,9 @@ public class GameOverSystem : MonoBehaviour
 
         //接触したオブジェクトを削除
         Destroy(collision.gameObject);
+
+        //表示と画面の再生停止
+        GameManager.Instance.isGameover = true;
+        resultObj.SetActive(true);
     }
 }

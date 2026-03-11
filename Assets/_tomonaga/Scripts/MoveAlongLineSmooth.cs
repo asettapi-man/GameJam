@@ -123,6 +123,8 @@ public class MoveAlongLine : MonoBehaviour
         currentSpeed = initialSpeed;  // 現在の速度を初期速度に設定
         LineManager.Instance.isMoving = true;
         LineManager.Instance.ClearParticleFunc();
+
+        flyingItem.StartFlying();
     }
 
     /// <summary>

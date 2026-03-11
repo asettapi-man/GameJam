@@ -24,25 +24,28 @@ public class ResultManegr : MonoBehaviour
     //インスペクターで指定する
     [Header("合計金額のテキスト")]
     [SerializeField] private Text totalAmountText;
-
-    // カップに入ったアイテム
-    private List<ItemData> itemDatas = new List<ItemData>();
     private void Start()
     {
         resultTexts = GetComponentsInChildren<ResultText>();
         resultImages = GetComponentsInChildren<ChangeResultImage>();
         switchingActiveImages = GetComponentsInChildren<SwitchingActiveImage>();
         // デバッグ用
-        itemDatas.Add(itemDataBase.GetItemData("vanillaIceCream"));
-        itemDatas.Add(itemDataBase.GetItemData("chocolateIceCream"));
-        itemDatas.Add(itemDataBase.GetItemData("chocolateIceCream"));
-        itemDatas.Add(itemDataBase.GetItemData("cottonCandyIceCream"));
-        itemDatas.Add(itemDataBase.GetItemData("chocolateMintIceCream"));
-        itemDatas.Add(itemDataBase.GetItemData("rabbitApple"));
-        itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
-        itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
-        itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
+        //itemDatas.Add(itemDataBase.GetItemData("vanillaIceCream"));
+        //itemDatas.Add(itemDataBase.GetItemData("chocolateIceCream"));
+        //itemDatas.Add(itemDataBase.GetItemData("chocolateIceCream"));
+        //itemDatas.Add(itemDataBase.GetItemData("cottonCandyIceCream"));
+        //itemDatas.Add(itemDataBase.GetItemData("chocolateMintIceCream"));
+        //itemDatas.Add(itemDataBase.GetItemData("rabbitApple"));
+        //itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
+        //itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
+        //itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
         //デバッグ用
+        //UpdateResult();
+    }
+
+    private void OnEnable()
+    {
+        //合計金額表示
         UpdateResult();
     }
 
@@ -53,7 +56,7 @@ public class ResultManegr : MonoBehaviour
         {
             ItemData data = itemDataBase.datas[i];
 
-            int counter = itemDataBase.GetItemDataCount(data.itemName, itemDatas);
+            int counter = itemDataBase.GetItemDataCount(data.itemName, GameManager.Instance.itemDatas);
 
             Debug.Log(data.itemName + " : " + counter);
         }
@@ -77,10 +80,10 @@ public class ResultManegr : MonoBehaviour
         {
             ItemData data = itemDataBase.datas[i];
             // 個数取得
-            int count = itemDataBase.GetItemDataCount(data.itemName, itemDatas);
+            int count = itemDataBase.GetItemDataCount(data.itemName, GameManager.Instance.itemDatas);
 
             //合計金額の取得
-            int amount = itemDataBase.GetTotalAmount(itemDatas);
+            int amount = itemDataBase.GetTotalAmount(GameManager.Instance.itemDatas);
 
             //合計金額を文字にする
             string amounts = amount.ToString();
