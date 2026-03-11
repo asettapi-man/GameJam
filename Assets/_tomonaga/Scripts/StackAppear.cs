@@ -1,81 +1,70 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class StackAppear : MonoBehaviour
 {
-    [Header("ƒXƒƒbƒgİ’è")]
-    public string slotTag = "StackSlot";
-    private List<RectTransform> slots = new List<RectTransform>();
+    [Header("ã‚°ãƒªãƒƒãƒ‰è¨­å®š")]
+    public int rows = 3;
+    public int columns = 4;
+    public Vector2 slotSize = new Vector2(100f, 100f);
+    public Vector2 spacing = new Vector2(10f, 10f);
+    public Vector2 gridAnchor = new Vector2(0.5f, 0.5f);
 
-    [Header("ƒXƒvƒ‰ƒCƒgİ’è")]
+    [Header("ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆè¨­å®š")]
     public List<Sprite> sprites = new List<Sprite>();
 
-    [Header("Šg‘åƒAƒjƒ[ƒVƒ‡ƒ“")]
+    [Header("ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³è¨­å®š")]
     public float scaleDuration = 0.25f;
     public float intervalPerSlot = 0.08f;
 
-    [Header("•¨—•ö—İ’è")]
-    public float gravityScale = 3f;
-    public float friction = 0.4f;
-    public float bounciness = 0.1f;
+    [Header("ã‚·ãƒ¼ãƒ³é·ç§»è¨­å®š")]
+    public string nextSceneName;
 
-    private enum State { Idle, Appearing, Done, Falling }
+    private enum State { Idle, Appearing, Disappearing }
     private State state = State.Idle;
 
+    private List<RectTransform> slots = new List<RectTransform>();
     private List<RectTransform> uiItems = new List<RectTransform>();
-    private List<GameObject> physicsItems = new List<GameObject>();
 
-    private PhysicsMaterial2D sharedMat;
-    private GameObject floorObj, wallLeft, wallRight;
-    private Camera cam;
     private Canvas canvas;
+    private RectTransform canvasRect;
+    private GameObject slotContainer;
+    private EventSystem eventSystem;
 
     void Start()
     {
-        var found = GameObject.FindGameObjectsWithTag(slotTag);
-        slots = found.Select(g => g.GetComponent<RectTransform>()).ToList();
+        canvas = GetComponent<Canvas>();
+        if (canvas == null) canvas = GetComponentInParent<Canvas>();
+        canvasRect = canvas.GetComponent<RectTransform>();
+        eventSystem = EventSystem.current;
 
-        cam = Camera.main;
-        canvas = GetComponentInParent<Canvas>();
-        if (canvas == null) canvas = FindFirstObjectByType<Canvas>();
-
-        sharedMat = new PhysicsMaterial2D("StackMat")
-        {
-            friction = friction,
-            bounciness = bounciness
-        };
-
-        CreateWalls();
-    }
-
-    void Update()
-    {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-            OnClick();
-    }
-
-    void OnClick()
-    {
-        if (state == State.Idle)
-        {
-            state = State.Appearing;
-            StartCoroutine(AppearRoutine());
-        }
-        else if (state == State.Done)
-        {
-            state = State.Falling;
-            StartCoroutine(FallRoutine());
-        }
+        GenerateSlots();
     }
 
     // =============================
-    // oŒ»ˆ—
+    // å¤–éƒ¨ã‹ã‚‰å‘¼ã¶å…¬é–‹ãƒ¡ã‚½ãƒƒãƒ‰
     // =============================
-    IEnumerator AppearRoutine()
+
+    /// <summary>
+    /// ãƒœã‚¿ãƒ³ã®OnClickã«ç™»éŒ²ã™ã‚‹ã€‚å‡ºç¾â†’ã‚·ãƒ¼ãƒ³é·ç§»â†’æ¶ˆæ»…ã‚’ä¸€é€£ã§å®Ÿè¡Œã€‚
+    /// </summary>
+    public void StartAppear()
+    {
+        if (state != State.Idle) return;
+        state = State.Appearing;
+        SetInput(false);
+        StartCoroutine(AppearThenTransition());
+    }
+
+    // =============================
+    // å‡ºç¾ â†’ é·ç§»
+    // =============================
+    IEnumerator AppearThenTransition()
     {
         foreach (var item in uiItems)
             if (item != null) Destroy(item.gameObject);
@@ -83,8 +72,9 @@ public class StackAppear : MonoBehaviour
 
         if (sprites.Count == 0)
         {
-            Debug.LogError("Sprites ƒŠƒXƒg‚ª‹ó‚Å‚·B");
+            Debug.LogError("Sprites ãƒªã‚¹ãƒˆãŒç©ºã§ã™ã€‚");
             state = State.Idle;
+            SetInput(true);
             yield break;
         }
 
@@ -92,26 +82,71 @@ public class StackAppear : MonoBehaviour
 
         for (int i = 0; i < sorted.Count; i++)
         {
-            StartCoroutine(
-                SpawnAndScale(sorted[i], sprites[Random.Range(0, sprites.Count)]));
-
+            StartCoroutine(SpawnAndScale(sorted[i], sprites[Random.Range(0, sprites.Count)]));
             yield return new WaitForSeconds(intervalPerSlot);
         }
 
-        // ‘SƒXƒƒbƒg‚ÌŠg‘åŠ®—¹‚ğ‘Ò‚Â
-        float totalWait = scaleDuration + intervalPerSlot * sorted.Count;
-        yield return new WaitForSeconds(totalWait);
+        // å…¨ã‚¹ãƒ­ãƒƒãƒˆã®æ‹¡å¤§å®Œäº†ã‚’å¾…ã¤
+        yield return new WaitForSeconds(scaleDuration + intervalPerSlot * sorted.Count);
 
-        state = State.Done;
-        Debug.Log("‘SƒXƒƒbƒgoŒ»Š®—¹IƒNƒŠƒbƒN‚Å•ö‚ê‚Ü‚·");
+        // Canvasãƒ»EventSystemã‚’DontDestroyOnLoadã«ç™»éŒ²ã—ã¦é·ç§»å¾Œã‚‚ä¿æŒ
+        DontDestroyOnLoad(canvas.gameObject);
+        if (eventSystem != null) DontDestroyOnLoad(eventSystem.gameObject);
+
+        // ã‚·ãƒ¼ãƒ³é·ç§»ï¼ˆéåŒæœŸã§å¾…æ©Ÿï¼‰
+        var op = SceneManager.LoadSceneAsync(nextSceneName);
+        yield return op;
+
+        // é·ç§»å®Œäº†å¾Œã€å³åº§ã«æ¶ˆæ»…é–‹å§‹
+        state = State.Disappearing;
+        StartCoroutine(DisappearRoutine());
     }
 
+    // =============================
+    // æ¶ˆæ»…ï¼ˆä¸Šã‹ã‚‰ç¸®å°ï¼‰
+    // =============================
+    IEnumerator DisappearRoutine()
+    {
+        var sorted = uiItems
+            .Where(i => i != null)
+            .OrderByDescending(i => i.position.y)
+            .ToList();
+
+        for (int i = 0; i < sorted.Count; i++)
+        {
+            StartCoroutine(ScaleAndDestroy(sorted[i]));
+            yield return new WaitForSeconds(intervalPerSlot);
+        }
+
+        yield return new WaitForSeconds(scaleDuration + intervalPerSlot * sorted.Count);
+
+        foreach (var item in uiItems)
+            if (item != null) Destroy(item.gameObject);
+        uiItems.Clear();
+
+        // æ¶ˆæ»…å®Œäº†å¾Œã«å…¥åŠ›ã‚’è§£æ”¾
+        SetInput(true);
+        state = State.Idle;
+
+        // Canvasè‡ªä½“ã‚‚ä¸è¦ãªã‚‰ç ´æ£„
+        Destroy(canvas.gameObject);
+    }
+
+    IEnumerator ScaleAndDestroy(RectTransform rt)
+    {
+        yield return ScaleTo(rt, 1f, 0f, EaseInCubic);
+        if (rt != null) Destroy(rt.gameObject);
+    }
+
+    // =============================
+    // å…±é€šã‚¹ã‚±ãƒ¼ãƒ«ã‚¢ãƒ‹ãƒ¡
+    // =============================
     IEnumerator SpawnAndScale(RectTransform slot, Sprite sprite)
     {
-        GameObject obj = new GameObject("StackItem");
+        var obj = new GameObject("StackItem");
         obj.transform.SetParent(slot.parent, false);
 
-        RectTransform rt = obj.AddComponent<RectTransform>();
+        var rt = obj.AddComponent<RectTransform>();
         rt.anchorMin = slot.anchorMin;
         rt.anchorMax = slot.anchorMax;
         rt.anchoredPosition = slot.anchoredPosition;
@@ -119,164 +154,77 @@ public class StackAppear : MonoBehaviour
         rt.pivot = slot.pivot;
         rt.localScale = Vector3.zero;
 
-        Image img = obj.AddComponent<Image>();
+        var img = obj.AddComponent<Image>();
         img.sprite = sprite;
         img.preserveAspect = false;
         img.raycastTarget = false;
 
         uiItems.Add(rt);
 
+        yield return ScaleTo(rt, 0f, 1f, EaseOutCubic);
+    }
+
+    IEnumerator ScaleTo(RectTransform rt, float from, float to,
+                        System.Func<float, float> ease)
+    {
         float elapsed = 0f;
         while (elapsed < scaleDuration)
         {
+            if (rt == null) yield break;
             elapsed += Time.deltaTime;
-            float s = EaseOutCubic(Mathf.Clamp01(elapsed / scaleDuration));
+            float s = Mathf.Lerp(from, to, ease(Mathf.Clamp01(elapsed / scaleDuration)));
             rt.localScale = new Vector3(s, s, 1f);
             yield return null;
         }
-        rt.localScale = Vector3.one;
+        if (rt != null) rt.localScale = new Vector3(to, to, 1f);
     }
 
     float EaseOutCubic(float t) => 1f - Mathf.Pow(1f - t, 3f);
+    float EaseInCubic(float t) => t * t * t;
 
     // =============================
-    // •ö—ˆ—
+    // å…¥åŠ›åˆ¶å¾¡
     // =============================
-    IEnumerator FallRoutine()
+    void SetInput(bool enabled)
     {
-        foreach (var uiItem in uiItems)
-        {
-            if (uiItem == null) continue;
+        if (eventSystem != null) eventSystem.enabled = enabled;
+    }
 
-            // ƒXƒNƒŠ[ƒ“À•W ¨ ƒ[ƒ‹ƒhÀ•W‚É•ÏŠ·
-            Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(null, uiItem.position);
-            Vector3 worldPos;
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                uiItem, screenPos, cam, out worldPos);
+    // =============================
+    // ã‚¹ãƒ­ãƒƒãƒˆç”Ÿæˆ
+    // =============================
+    void GenerateSlots()
+    {
+        if (slotContainer != null) Destroy(slotContainer);
+        slots.Clear();
 
-            // Canvas‚ÌRenderMode‚Å•ÏŠ·•û–@‚ğØ‚è‘Ö‚¦
-            if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+        slotContainer = new GameObject("SlotContainer");
+        var containerRect = slotContainer.AddComponent<RectTransform>();
+        containerRect.SetParent(canvasRect, false);
+
+        float totalW = columns * slotSize.x + (columns - 1) * spacing.x;
+        float totalH = rows * slotSize.y + (rows - 1) * spacing.y;
+
+        containerRect.anchorMin = gridAnchor;
+        containerRect.anchorMax = gridAnchor;
+        containerRect.pivot = new Vector2(0.5f, 0.5f);
+        containerRect.sizeDelta = new Vector2(totalW, totalH);
+        containerRect.anchoredPosition = Vector2.zero;
+
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < columns; c++)
             {
-                worldPos = cam.ScreenToWorldPoint(
-                    new Vector3(screenPos.x, screenPos.y, -cam.transform.position.z));
+                var go = new GameObject($"Slot_{r}_{c}");
+                var rt = go.AddComponent<RectTransform>();
+                rt.SetParent(containerRect, false);
+                rt.anchorMin = Vector2.zero;
+                rt.anchorMax = Vector2.zero;
+                rt.pivot = new Vector2(0.5f, 0.5f);
+                rt.sizeDelta = slotSize;
+                rt.anchoredPosition = new Vector2(
+                    c * (slotSize.x + spacing.x) + slotSize.x * 0.5f,
+                    r * (slotSize.y + spacing.y) + slotSize.y * 0.5f);
+                slots.Add(rt);
             }
-            else
-            {
-                worldPos = uiItem.position; // WorldSpace‚È‚ç‚»‚Ì‚Ü‚Üg‚¦‚é
-            }
-
-            Vector2 worldSize = GetWorldSize(uiItem);
-
-            GameObject physObj = new GameObject("PhysicsItem");
-            physObj.transform.position = new Vector3(worldPos.x, worldPos.y, 0f);
-
-            var sr = physObj.AddComponent<SpriteRenderer>();
-            sr.sprite = uiItem.GetComponent<Image>().sprite;
-            sr.sortingOrder = 100;
-
-            Vector2 spriteSize = sr.sprite.bounds.size;
-            physObj.transform.localScale = new Vector3(
-                worldSize.x / spriteSize.x,
-                worldSize.y / spriteSize.y,
-                1f
-            );
-
-            var rb = physObj.AddComponent<Rigidbody2D>();
-            rb.gravityScale = gravityScale;
-            rb.linearDamping = 0.3f;
-            rb.angularDamping = 0.5f;
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
-            physicsItems.Add(physObj);
-        }
-
-        foreach (var uiItem in uiItems)
-            if (uiItem != null) uiItem.gameObject.SetActive(false);
-
-        // °‚ğÁ‚µ‚Ä—‰º
-        floorObj.GetComponent<BoxCollider2D>().enabled = false;
-
-        float bottomY = cam.transform.position.y - cam.orthographicSize - 10f;
-        float timeout = 6f, elapsed = 0f;
-
-        while (elapsed < timeout)
-        {
-            elapsed += Time.deltaTime;
-            bool allFallen = physicsItems
-                .Where(i => i != null)
-                .All(i => i.transform.position.y < bottomY);
-            if (allFallen) break;
-            yield return null;
-        }
-
-        foreach (var item in uiItems)
-            if (item != null) Destroy(item.gameObject);
-        uiItems.Clear();
-
-        foreach (var item in physicsItems)
-            if (item != null) Destroy(item);
-        physicsItems.Clear();
-
-        floorObj.GetComponent<BoxCollider2D>().enabled = true;
-
-        state = State.Idle;
-        Debug.Log("•ö—Š®—¹IÄ“xƒNƒŠƒbƒN‚ÅoŒ»‚µ‚Ü‚·");
-    }
-
-    Vector2 GetWorldSize(RectTransform rt)
-    {
-        Vector3[] corners = new Vector3[4];
-        rt.GetWorldCorners(corners);
-
-        if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
-        {
-            // ƒXƒNƒŠ[ƒ“À•W‚ğƒ[ƒ‹ƒhÀ•W‚É•ÏŠ·‚µ‚ÄƒTƒCƒY‚ğŒvZ
-            Vector3 c0 = cam.ScreenToWorldPoint(new Vector3(corners[0].x, corners[0].y, -cam.transform.position.z));
-            Vector3 c1 = cam.ScreenToWorldPoint(new Vector3(corners[1].x, corners[1].y, -cam.transform.position.z));
-            Vector3 c3 = cam.ScreenToWorldPoint(new Vector3(corners[3].x, corners[3].y, -cam.transform.position.z));
-            return new Vector2(
-                Vector3.Distance(c0, c3),
-                Vector3.Distance(c0, c1)
-            );
-        }
-        else
-        {
-            return new Vector2(
-                Vector3.Distance(corners[0], corners[3]),
-                Vector3.Distance(corners[0], corners[1])
-            );
-        }
-    }
-
-    // =============================
-    // •ÇE°iLayer‚È‚µj
-    // =============================
-    void CreateWalls()
-    {
-        float screenH = cam.orthographicSize * 2f;
-        float screenW = screenH * cam.aspect;
-        float cx = cam.transform.position.x;
-        float cy = cam.transform.position.y;
-        const float t = 0.2f;
-
-        floorObj = CreateBox("Floor",
-            new Vector2(cx, cy - cam.orthographicSize - t / 2f),
-            new Vector2(screenW + 1f, t));
-        wallLeft = CreateBox("WallL",
-            new Vector2(cx - screenW / 2f - t / 2f, cy),
-            new Vector2(t, screenH + 4f));
-        wallRight = CreateBox("WallR",
-            new Vector2(cx + screenW / 2f + t / 2f, cy),
-            new Vector2(t, screenH + 4f));
-    }
-
-    GameObject CreateBox(string name, Vector2 pos, Vector2 size)
-    {
-        var go = new GameObject(name);
-        go.transform.position = pos;
-        var col = go.AddComponent<BoxCollider2D>();
-        col.size = size;
-        col.sharedMaterial = sharedMat;
-        return go;
     }
 }
