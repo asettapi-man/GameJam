@@ -15,49 +15,111 @@ MonoBehaviour:
   datas:
   - itemName: vanillaIceCream
     money: 300
-    gravity: 1
     scale: 0.05
     sprite: {fileID: -2420664510065762595, guid: 9d3e0835b90d2df47b564e3be9e2d167, type: 3}
     clip: {fileID: 0}
   - itemName: chocolateIceCream
     money: 300
-    gravity: 1
     scale: 0.05
     sprite: {fileID: -8556154561557658812, guid: 7ac369af3e16ba64b83a11a3ed781ae4, type: 3}
     clip: {fileID: 0}
   - itemName: cottonCandyIceCream
     money: 300
-    gravity: 1
     scale: 0.05
     sprite: {fileID: -3822243950059166008, guid: d2a3a0fec77c54d40ae44a6dd158f7ae, type: 3}
     clip: {fileID: 0}
   - itemName: chocolateMintIceCream
     money: 300
-    gravity: 1
     scale: 0.05
     sprite: {fileID: -4789478352813021637, guid: cc598f68e212a0d45ba3dc8c62b63523, type: 3}
     clip: {fileID: 0}
   - itemName: rabbitApple
     money: 100
-    gravity: 1
     scale: 0.07
     sprite: {fileID: 5934105714714851544, guid: 188cf50ec927d53438f03d2b1c83880a, type: 3}
     clip: {fileID: 0}
-  - itemName: marshmallow
-    money: 100
-    gravity: 1
-    scale: 0.1
-    sprite: {fileID: 2928277582954247853, guid: c0c9f261b9dfd794f8dd5df32b5ec416, type: 3}
-    clip: {fileID: 0}
   - itemName: cake
     money: 100
-    gravity: 1
     scale: 0.1
     sprite: {fileID: -3750097495944089515, guid: 18a886c1f9a50904c9d71836c3edfe40, type: 3}
     clip: {fileID: 0}
+  - itemName: marshmallow
+    money: 100
+    scale: 0.1
+    sprite: {fileID: 2928277582954247853, guid: c0c9f261b9dfd794f8dd5df32b5ec416, type: 3}
+    clip: {fileID: 0}
   - itemName: cookie
     money: 100
-    gravity: 1
     scale: 0.1
     sprite: {fileID: 1086025724810507588, guid: fad3cad461d8fd04fa790c831380015d, type: 3}
+    clip: {fileID: 0}
+  - itemName: banana
+    money: 300
+    scale: 0.05
+    sprite: {fileID: 5766809783684462100, guid: 31157306aae868d4483b88e2f986c7aa, type: 3}
+    clip: {fileID: 0}
+  - itemName: candy
+    money: 1000
+    scale: 0.1
+    sprite: {fileID: 4205734650451146492, guid: 1142e82fa0327f148ba255f5b4b8862c, type: 3}
+    clip: {fileID: 0}
+  - itemName: canele
+    money: 300
+    scale: 0.05
+    sprite: {fileID: -3767195182922523210, guid: e7e2b782c5dcd1144b4e93a839a7c1f6, type: 3}
+    clip: {fileID: 0}
+  - itemName: castella
+    money: 300
+    scale: 0.05
+    sprite: {fileID: 8031058135783899429, guid: 68874d75821496c4fa88aae824a073d4, type: 3}
+    clip: {fileID: 0}
+  - itemName: cherry
+    money: 400
+    scale: 0.07
+    sprite: {fileID: -6362228767186922845, guid: 282a41102795654469f3fc91a82c2ce8, type: 3}
+    clip: {fileID: 0}
+  - itemName: kiwi
+    money: 300
+    scale: 0.05
+    sprite: {fileID: 2962220210721177621, guid: 16dc0186ad1a589469290ba5a3cd2cc0, type: 3}
+    clip: {fileID: 0}
+  - itemName: madeleine
+    money: 300
+    scale: 0.05
+    sprite: {fileID: -5867285254107324315, guid: b53073c89b6540c4188ca6215a1a646c, type: 3}
+    clip: {fileID: 0}
+  - itemName: melon
+    money: 1000
+    scale: 0.1
+    sprite: {fileID: -5296114981017630030, guid: a1b21b0d66794d04ab5a83076c0261cf, type: 3}
+    clip: {fileID: 0}
+  - itemName: mint
+    money: 100
+    scale: 0.03
+    sprite: {fileID: -384222970720672775, guid: 33e042222c18c574a91b820716721b54, type: 3}
+    clip: {fileID: 0}
+  - itemName: orange
+    money: 300
+    scale: 0.05
+    sprite: {fileID: 7194462739062880298, guid: e6a3abf95a04a8b4db188d45264a6479, type: 3}
+    clip: {fileID: 0}
+  - itemName: pudding
+    money: 500
+    scale: 0.07
+    sprite: {fileID: -2267065601781593079, guid: 257cda877ec892547aafb5bfbe900bd4, type: 3}
+    clip: {fileID: 0}
+  - itemName: softserve
+    money: 1000
+    scale: 0.1
+    sprite: {fileID: -1091397686813472860, guid: dc9a6ed22e8485f4791a075dc66cb68b, type: 3}
+    clip: {fileID: 0}
+  - itemName: strawberry
+    money: 500
+    scale: 0.07
+    sprite: {fileID: -3251982945352978834, guid: 4de6522ae81201e43a6808d884667203, type: 3}
+    clip: {fileID: 0}
+  - itemName: taiyaki
+    money: 500
+    scale: 0.07
+    sprite: {fileID: -5878400806048592041, guid: 6e7ece824c6ab2d4ebe407d2e6907b3a, type: 3}
     clip: {fileID: 0}
