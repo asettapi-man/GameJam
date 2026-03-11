@@ -24,6 +24,14 @@ public class ImageChanges : MonoBehaviour
 
     private void Update()
     {
+        //ゲームオーバー時以外は実行
+        if (GameManager.Instance.isGameOver)
+        {
+            //コルーチン終了
+            StopCoroutine(coroutine);
+            return;
+        }
+
         //左クリックを押したらコルーチンを止める
         if (Mouse.current.leftButton.wasPressedThisFrame && !PauseManager.Instance.isPause)
         {

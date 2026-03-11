@@ -86,6 +86,9 @@ public class MoveAlongLine : MonoBehaviour
     /// <param name="context">入力コンテキスト</param>
     void OnClick(InputAction.CallbackContext context)
     {
+        //ゲームオーバー時以外は実行
+        if (GameManager.Instance.isGameOver) return;
+
         //移動中でなければクリック処理実行
         if (!LineManager.Instance.isMoving && !PauseManager.Instance.isPause)
         {

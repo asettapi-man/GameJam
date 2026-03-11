@@ -95,8 +95,8 @@ MonoBehaviour:
     clip: {fileID: 0}
   - itemName: mint
     money: 100
-    scale: 0.03
-    sprite: {fileID: -384222970720672775, guid: 33e042222c18c574a91b820716721b54, type: 3}
+    scale: 0.05
+    sprite: {fileID: -1963345117162782567, guid: 33e042222c18c574a91b820716721b54, type: 3}
     clip: {fileID: 0}
   - itemName: orange
     money: 300

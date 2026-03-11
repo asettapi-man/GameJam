@@ -62,6 +62,9 @@ public class FlyingItem : MonoBehaviour
 
     private void Update()
     {
+        //ゲームオーバー時以外は実行
+        if (GameManager.Instance.isGameOver) return;
+
         itemData = imageChanges.currentData;
         var scale = itemData.scale;
 

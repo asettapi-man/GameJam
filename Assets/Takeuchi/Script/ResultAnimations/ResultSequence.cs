@@ -36,10 +36,23 @@ public class ResultSequence : MonoBehaviour
 
     private ResultManegr result;
 
+    //リザルトのスクロールバー
+    private Scrollbar scrollbar;    
+
     void Start()
     {
+        //コンポーネント取得
         animations = GetComponentsInChildren<ResultAnimation>();
         result = GetComponentInChildren<ResultManegr>();
+        scrollbar = GetComponentInChildren<Scrollbar>();
+
+        //== 初期設定 ==
+        //スクロールバーの初期化
+        scrollRect.verticalNormalizedPosition = 1.0f;
+
+        //スクロール機能を無し
+        scrollRect.vertical = false;
+        scrollbar.interactable = false;
     }
 
     void Update()
@@ -65,12 +78,16 @@ public class ResultSequence : MonoBehaviour
             }
 
             // スクロールを少し下げる
-            ScrollDown();
+            if (i >= groupSize) ScrollDown();
 
             yield return new WaitForSeconds(interval);
         }
 
         CheckoutAnimationPlay();
+
+        //スクロール機能有り
+        scrollRect.vertical = true;
+        scrollbar.interactable = true;
     }
 
     IEnumerator PlaySoundDelay()

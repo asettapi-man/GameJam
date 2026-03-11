@@ -11,7 +11,6 @@ public class GameOverSystem : MonoBehaviour
     private void Awake()
     {
         //îÒï\é¶
-        //resultObj.SetActive(false);
         resultObj.alpha = 0;
     }
 
@@ -36,7 +35,8 @@ public class GameOverSystem : MonoBehaviour
 
         //ï\é¶Ç∆âÊñ ÇÃçƒê∂í‚é~
         GameManager.Instance.isGameOver = true;
-        //resultObj.SetActive(true);
         resultObj.alpha = 1;
     }
+
+    private 
 }
