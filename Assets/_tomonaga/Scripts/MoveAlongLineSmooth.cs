@@ -87,7 +87,7 @@ public class MoveAlongLine : MonoBehaviour
     void OnClick(InputAction.CallbackContext context)
     {
         //移動中でなければクリック処理実行
-        if (!LineManager.Instance.isMoving)
+        if (!LineManager.Instance.isMoving && !PauseManager.Instance.isPause)
         {
             StartMove();
         }
