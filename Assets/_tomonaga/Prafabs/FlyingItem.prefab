@@ -124,7 +124,7 @@ MonoBehaviour:
   initialSpeed: 7
   maxSpeed: 20
   minSpeed: 5
-  descendAcceleration: 8
+  descendAcceleration: 12
   ascendDeceleration: 2
   clickAction:
     m_Name: Click
