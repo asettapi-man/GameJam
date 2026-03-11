@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Ritsuki/Scene/TestScene.unity
     guid: ab97f7d319a82c441a0d5785c62d7d8e
   - enabled: 0
-    path: Assets/Ritsuki/Scene/TitleScene.unity
+    path: Assets/Scenes/TitleScene.unity
     guid: e4967f7bebbdd6249a33a2b383869f25
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
