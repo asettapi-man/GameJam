@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class StackAppear : MonoBehaviour
 {
     [Header("スロット設定")]
-    public List<RectTransform> slots = new List<RectTransform>();
+    public string slotTag = "StackSlot";
+    private List<RectTransform> slots = new List<RectTransform>();
 
     [Header("スプライト設定")]
     public List<Sprite> sprites = new List<Sprite>();
@@ -35,6 +36,8 @@ public class StackAppear : MonoBehaviour
 
     void Start()
     {
+        var found = GameObject.FindGameObjectsWithTag(slotTag);
+        slots = found.Select(g => g.GetComponent<RectTransform>()).ToList();
 
         cam = Camera.main;
         canvas = GetComponentInParent<Canvas>();
