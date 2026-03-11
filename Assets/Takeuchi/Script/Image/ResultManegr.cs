@@ -78,11 +78,12 @@ public class ResultManegr : MonoBehaviour
             ItemData data = itemDataBase.datas[i];
             // 個数取得
             int count = itemDataBase.GetItemDataCount(data.itemName, itemDatas);
-            Debug.Log(count);
+
+            //合計金額の取得
             int amount = itemDataBase.GetTotalAmount(itemDatas);
-            Debug.Log("合計"+amount);
+
+            //合計金額を文字にする
             string amounts = amount.ToString();
-            Debug.Log(amounts);
 
             // テキスト更新
             resultTexts[i].SetText(count);
