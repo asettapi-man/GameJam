@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public List<ItemDataBase.ItemData> itemDatas;
 
+    //ゲームオーバーフラグ
+    [HideInInspector]
+    public bool isGameover = false;
+
     private void Awake()
     {
         //自分自身以外がいるか？
