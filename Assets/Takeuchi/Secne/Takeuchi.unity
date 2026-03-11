@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_CellSize: {x: 120, y: 120}
   m_Spacing: {x: 220, y: 110}
   m_Constraint: 1
-  m_ConstraintCount: 5
+  m_ConstraintCount: 4
 --- !u!114 &246379100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1519,7 +1519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &385793771
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2488,7 +2488,6 @@ GameObject:
   - component: {fileID: 541763895}
   - component: {fileID: 541763894}
   - component: {fileID: 541763893}
-  - component: {fileID: 541763896}
   m_Layer: 5
   m_Name: "Text(\u5408\u8A08\u91D1\u984D)"
   m_TagString: Untagged
@@ -2579,21 +2578,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 541763891}
   m_CullTransparentMesh: 1
---- !u!114 &541763896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 541763891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 769c153fe87565f4883887a02acdce4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ResultTotalText
-  accounting: {fileID: 2041910272}
-  totalText: {fileID: 0}
-  delayTime: 0.5
 --- !u!1001 &574486987
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4485,8 +4469,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 665982275}
   m_HandleRect: {fileID: 665982274}
   m_Direction: 2
-  m_Value: 0.9999989
-  m_Size: 0.46556774
+  m_Value: 0.99999934
+  m_Size: 0.34318995
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8291,7 +8275,6 @@ GameObject:
   - component: {fileID: 2041910268}
   - component: {fileID: 2041910267}
   - component: {fileID: 2041910271}
-  - component: {fileID: 2041910272}
   m_Layer: 5
   m_Name: "Canvas(\u30EA\u30B6\u30EB\u30C8\u7528)"
   m_TagString: Untagged
@@ -8401,20 +8384,6 @@ MonoBehaviour:
   scrollRect: {fileID: 905216711}
   debug: 0
   groupSize: 4
---- !u!114 &2041910272
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2041910266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b8fece69f883c440b52065c8b9587b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AccountingCalculations
-  itemDataBase: {fileID: 11400000, guid: fd93c9d2a2223f946942a2a3b1e19e56, type: 2}
-  totalAmount: 0
 --- !u!1 &2042612152
 GameObject:
   m_ObjectHideFlags: 0
