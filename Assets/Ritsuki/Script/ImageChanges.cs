@@ -25,7 +25,7 @@ public class ImageChanges : MonoBehaviour
     private void Update()
     {
         //左クリックを押したらコルーチンを止める
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame && !PauseManager.Instance.isPause)
         {
             StopCoroutine(coroutine);
         }

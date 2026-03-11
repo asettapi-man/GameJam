@@ -49,12 +49,6 @@ MonoBehaviour:
     scale: 0.1
     sprite: {fileID: 2928277582954247853, guid: c0c9f261b9dfd794f8dd5df32b5ec416, type: 3}
     clip: {fileID: 0}
-  - itemName: marshmallow
-    money: 100
-    gravity: 1
-    scale: 0.1
-    sprite: {fileID: 2928277582954247853, guid: c0c9f261b9dfd794f8dd5df32b5ec416, type: 3}
-    clip: {fileID: 0}
   - itemName: cake
     money: 100
     gravity: 1

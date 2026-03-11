@@ -17,8 +17,8 @@ public class AccountingCalculations : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            itemData.Add(new ItemDataBase.ItemData { itemName = "ice", money = 50, gravity = 1.0f, sprite = null });
-            itemData.Add(new ItemDataBase.ItemData { itemName = "cake", money = 100, gravity = 1.0f, sprite = null });
+            itemData.Add(new ItemDataBase.ItemData { itemName = "ice", money = 50, sprite = null });
+            itemData.Add(new ItemDataBase.ItemData { itemName = "cake", money = 100, sprite = null });
         }
 
         totalAmount = itemDataBase.GetTotalAmount(itemData);

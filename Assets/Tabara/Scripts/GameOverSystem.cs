@@ -17,7 +17,6 @@ public class GameOverSystem : MonoBehaviour
         Debug.Log($"削除したアイテムデータ");
         Debug.Log($"名前：{data.itemName}");
         Debug.Log($"お金：{data.money}");
-        Debug.Log($"重さ：{data.gravity}");
 
         Debug.Log($"アイテムデータ数：{GameManager.Instance.itemDatas.Count}");
 

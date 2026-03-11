@@ -17,8 +17,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
     {
        for (int i = 0; i < 2; i++)
        {
-           itemData.Add(new ItemDataBase.ItemData { itemName = "vanillaIceCream", money = 100, gravity = 1.0f, sprite = null });
-           itemData.Add(new ItemDataBase.ItemData { itemName = "chocolateIceCream", money = 100, gravity = 1.0f, sprite = null });
+           itemData.Add(new ItemDataBase.ItemData { itemName = "vanillaIceCream", money = 100, sprite = null });
+           itemData.Add(new ItemDataBase.ItemData { itemName = "chocolateIceCream", money = 100, sprite = null });
         }
 
         int total = itemDataBase.GetTotalAmount(itemData);
