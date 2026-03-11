@@ -30,16 +30,21 @@ public class ResultSequence : MonoBehaviour
    [SerializeField] private AudioSource checkoutAudioSource;
 
     private bool isPlaying = false;
+
     //何個ずつアニメーションを再生するかの数
     [SerializeField] private　int groupSize = 4;
+
+    private ResultManegr result;
+
     void Start()
     {
         animations = GetComponentsInChildren<ResultAnimation>();
+        result = GetComponentInChildren<ResultManegr>();
     }
 
     void Update()
     {
-        if (GameManager.Instance.isGameover && !isPlaying)
+        if (GameManager.Instance.isGameOver && !isPlaying)
         {
             isPlaying = true;
             StartCoroutine(PlaySequence());
@@ -48,8 +53,9 @@ public class ResultSequence : MonoBehaviour
 
     IEnumerator PlaySequence()
     {
+        var playCount = result.GetItemDataCount();
 
-        for (int i = 0; i < animations.Length; i += groupSize)
+        for (int i = 0; i < playCount; i += groupSize)
         {
             // 4個再生
             for (int j = i; j < i + groupSize && j < animations.Length; j++)

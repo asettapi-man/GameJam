@@ -35,7 +35,7 @@ public class GameOverSystem : MonoBehaviour
         Destroy(collision.gameObject);
 
         //ï\é¶Ç∆âÊñ ÇÃçƒê∂í‚é~
-        GameManager.Instance.isGameover = true;
+        GameManager.Instance.isGameOver = true;
         //resultObj.SetActive(true);
         resultObj.alpha = 1;
     }

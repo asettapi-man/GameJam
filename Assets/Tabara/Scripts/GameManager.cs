@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     //ゲームオーバーフラグ
     [HideInInspector]
-    public bool isGameover = false;
+    public bool isGameOver = false;
 
     private void Awake()
     {

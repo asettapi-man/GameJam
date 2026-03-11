@@ -24,29 +24,47 @@ public class ResultManegr : MonoBehaviour
     //インスペクターで指定する
     [Header("合計金額のテキスト")]
     [SerializeField] private Text totalAmountText;
+
+    //リザルト画面の表示フラグ
+    private bool isResult = false;
+    
     private void Start()
     {
         resultTexts = GetComponentsInChildren<ResultText>();
         resultImages = GetComponentsInChildren<ChangeResultImage>();
         switchingActiveImages = GetComponentsInChildren<SwitchingActiveImage>();
         // デバッグ用
-        //itemDatas.Add(itemDataBase.GetItemData("vanillaIceCream"));
-        //itemDatas.Add(itemDataBase.GetItemData("chocolateIceCream"));
-        //itemDatas.Add(itemDataBase.GetItemData("chocolateIceCream"));
-        //itemDatas.Add(itemDataBase.GetItemData("cottonCandyIceCream"));
-        //itemDatas.Add(itemDataBase.GetItemData("chocolateMintIceCream"));
-        //itemDatas.Add(itemDataBase.GetItemData("rabbitApple"));
-        //itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
-        //itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
-        //itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("vanillaIceCream"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("chocolateIceCream"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("chocolateIceCream"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("cottonCandyIceCream"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("chocolateMintIceCream"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("rabbitApple"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
+        //GameManager.Instance.itemDatas.Add(itemDataBase.GetItemData("marshmallow"));
         //デバッグ用
         //UpdateResult();
+        isResult = false;
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        //合計金額表示
-        UpdateResult();
+        if (GameManager.Instance.isGameOver && !isResult)
+        {
+            //合計金額表示
+            UpdateResult();
+        }
+    }
+
+    /// <summary>
+    /// アイテムデータベースのデータ数の取得
+    /// </summary>
+    /// <returns></returns>
+    public int GetItemDataCount()
+    {
+        //アイテムデータベースがない　または　アイテムデータの数が０以下か？
+        return itemDataBase == null || itemDataBase.datas.Count <= 0 ? 0 : itemDataBase.datas.Count;
     }
 
     //各アイテムの個数を数える関数
@@ -97,6 +115,7 @@ public class ResultManegr : MonoBehaviour
             //合計金額を合計金額テキストに同期
             totalAmountText.text = amounts + "円";
         }
-       
+
+        isResult = true;
     }
 }
