@@ -33,6 +33,10 @@ public class LineManager:MonoBehaviour
     [HideInInspector]
     public bool isMoving = false;
 
+    //予測点初期位置オブジェクト
+    [SerializeField, Header("予測点の初期位置となるオブジェクト")]
+    private Transform initialPredictionObject;
+
     /// <summary>
     /// シングルトンの初期化
     /// </summary>
@@ -143,6 +147,16 @@ public class LineManager:MonoBehaviour
     public int PassConflictSegmentCount()
     {
         return lineRendererComponentRef.GetConflictSegmentCount();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetinitialPosition()
+    {
+        Vector3 initinalPosition = initialPredictionObject.transform.position;
+        return initinalPosition;
     }
 
 }
