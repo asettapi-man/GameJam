@@ -33,6 +33,12 @@ public class FlyingItem : MonoBehaviour
     // 生成した予測点オブジェクトへの参照
     private GameObject preObj;
 
+    //
+    public ParticleSystem shootingEffect;
+
+
+
+
 
     /// <summary>
     /// 初期化処理
@@ -93,5 +99,14 @@ public class FlyingItem : MonoBehaviour
         //投げたアイテムのデータを追加
         GameManager.Instance.itemDatas.Add(itemData);
         Debug.Log($"カップ内のアイテム数：{GameManager.Instance.itemDatas.Count}");
+
+        shootingEffect.loop = false;    
     }
+
+
+    public void StartFlying()
+    {
+        shootingEffect.Play();
+    }
+
 }
