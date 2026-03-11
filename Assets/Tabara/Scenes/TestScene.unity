@@ -464,7 +464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
   itemDataBase: {fileID: 11400000, guid: fd93c9d2a2223f946942a2a3b1e19e56, type: 2}
   image: {fileID: 196977804}
-  itemName: ice
+  itemName: chocolateIceCream
 --- !u!4 &1957796759
 Transform:
   m_ObjectHideFlags: 0

@@ -6,11 +6,15 @@ using UnityEngine.InputSystem;
 
 public class ImageChanges : MonoBehaviour
 {
-    [SerializeField] private Image displayImage;      // 画像を表示するUIのImageコンポーネント
-    [SerializeField] private Sprite[] sprites;        // 切り替える画像をまとめた配列
-    [SerializeField] private float interval = 2.0f;   // 切り替え間隔（秒）
+    [SerializeField] private SpriteRenderer displayImage;      // 画像を表示用
+    [SerializeField] private ItemDataBase itemDatas;           //アイテムデータ（画像用）
+    [SerializeField] private float interval = 2.0f;            // 切り替え間隔（秒）
 
-    private Coroutine coroutine;
+    //アイテムデータ1件分
+    [HideInInspector]
+    public ItemDataBase.ItemData currentData;
+
+    private Coroutine coroutine;    //コルーチン
 
     private void Awake()
     {
@@ -23,7 +27,6 @@ public class ImageChanges : MonoBehaviour
         //左クリックを押したらコルーチンを止める
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            Debug.Log("左クリックした！");
             StopCoroutine(coroutine);
         }
     }
@@ -35,16 +38,14 @@ public class ImageChanges : MonoBehaviour
         {
 
             //画像をランダムにする
-            int index = Random.Range(0, sprites.Length);
-
-            Debug.Log($"乱数：{index}");
+            int index = Random.Range(0, itemDatas.datas.Count);
 
             //現在の画像を表示する
-            displayImage.sprite = sprites[index];
+            currentData = itemDatas.datas[index];
+            displayImage.sprite = currentData.sprite;
 
             //指定した間隔だけ待機する
             yield return new WaitForSeconds(interval);
         }
     }
-
 }

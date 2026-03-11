@@ -224,11 +224,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ImageChanges
   displayImage: {fileID: 21346136}
-  sprites:
-  - {fileID: 3206288760120457463, guid: 3474af38836394249903abc56a7451be, type: 3}
-  - {fileID: -1292061513375386741, guid: dfc72a96388e531478b39bd758c9057a, type: 3}
-  - {fileID: 4810580447802828262, guid: d58a3a5930cb01a41b0b1f2027972a2b, type: 3}
+  itemDatas: {fileID: 11400000, guid: fd93c9d2a2223f946942a2a3b1e19e56, type: 2}
   interval: 0.5
+  decisionInterval: 3
 --- !u!4 &380622680
 Transform:
   m_ObjectHideFlags: 0
