@@ -59,7 +59,6 @@ public class MoveAlongLine : MonoBehaviour
         //移動中なら再度クリック不可
         if (!LineManager.Instance.isMoving)
         {
-            flyingItem.SetItemData(imageChanges.currentData);
             StartMove();
         }
     }

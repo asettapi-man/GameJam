@@ -43,6 +43,8 @@ public class ImageChanges : MonoBehaviour
             //Œ»İ‚Ì‰æ‘œ‚ğ•\¦‚·‚é
             currentData = itemDatas.datas[index];
             displayImage.sprite = currentData.sprite;
+            var scale = currentData.scale;
+            displayImage.gameObject.GetComponent<Transform>().localScale = new Vector3(scale, scale, scale);
 
             //w’è‚µ‚½ŠÔŠu‚¾‚¯‘Ò‹@‚·‚é
             yield return new WaitForSeconds(interval);
