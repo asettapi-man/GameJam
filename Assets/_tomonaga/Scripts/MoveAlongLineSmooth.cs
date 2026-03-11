@@ -2,100 +2,135 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Œo˜H‚ğ‚½‚Ç‚Á‚ÄƒIƒuƒWƒFƒNƒg‚ªˆÚ“®‚µ‚Ä‚¢‚­ƒXƒNƒŠƒvƒg
+/// çµŒè·¯ã«æ²¿ã£ã¦ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç§»å‹•ã•ã›ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+/// åˆæœŸé€Ÿåº¦ã‹ã‚‰å¾ã€…ã«åŠ é€Ÿã—ã¦æœ€é«˜é€Ÿåº¦ã«åˆ°é”ã™ã‚‹
 /// </summary>
 public class MoveAlongLine : MonoBehaviour
 {
-    private LineRenderer line;      // ˆÚ“®Œo˜H‚Æ‚È‚éLineRenderer
+    private LineRenderer line;
 
-    // ˆÚ“®‘¬“x
-    [SerializeField,Header("ˆÚ“®‘¬“x"),Range(0,10f)]
-    public float speed = 5f;
+    // åˆæœŸé€Ÿåº¦
+    [SerializeField, Header("åˆæœŸé€Ÿåº¦"), Range(0, 15f)]
+    private float initialSpeed = 1f;
 
-    // ƒNƒŠƒbƒN“ü—ÍƒAƒNƒVƒ‡ƒ“
-    [SerializeField,Header("ˆÚ“®ŠJn‚Ìƒ{ƒ^ƒ“‚ğİ’è")]
+    // æœ€é«˜é€Ÿåº¦
+    [SerializeField, Header("æœ€é«˜é€Ÿåº¦"), Range(0, 30f)]
+    private float maxSpeed = 10f;
+
+    // æœ€ä½é€Ÿåº¦ï¼ˆæ¸›é€Ÿæ™‚ã®ä¸‹é™ï¼‰
+    [SerializeField, Header("æœ€ä½é€Ÿåº¦"), Range(0, 10f)]
+    private float minSpeed = 0.5f;
+
+    // ä¸‹é™æ™‚ã®åŠ é€Ÿåº¦ï¼ˆæ¯ç§’ã©ã‚Œã ã‘é€Ÿåº¦ã‚’å¢—ã‚„ã™ã‹ï¼‰
+    [SerializeField, Header("ä¸‹é™æ™‚ã®åŠ é€Ÿåº¦"), Range(0, 30f)]
+    private float descendAcceleration = 8f;
+
+    // ä¸Šæ˜‡æ™‚ã®æ¸›é€Ÿå€ç‡ï¼ˆé€Ÿåº¦ã«ã“ã®å€¤ã‚’æ›ã‘ã‚‹ï¼‰
+    [SerializeField, Header("ä¸Šæ˜‡æ™‚ã®æ¸›é€Ÿå€ç‡"), Range(0, 20f)]
+    private float ascendDeceleration = 3f;
+
+    // ç¾åœ¨ã®é€Ÿåº¦
+    private float currentSpeed;
+
+    // ã‚¯ãƒªãƒƒã‚¯å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³
+    [SerializeField, Header("ç§»å‹•é–‹å§‹ã®ãƒœã‚¿ãƒ³è¨­å®š")]
     public InputAction clickAction;
 
-    private Vector3[] points;       // LineRenderer‚Ì’¸“_À•W”z—ñ
-    private int currentIndex = 0;   // Œ»İŒü‚©‚Á‚Ä‚¢‚é’¸“_‚ÌƒCƒ“ƒfƒbƒNƒX
+    private Vector3[] points;       // LineRendererã®é ‚ç‚¹åº§æ¨™é…åˆ—
+    private int currentIndex = 0;   // ç¾åœ¨å‘ã‹ã£ã¦ã„ã‚‹é ‚ç‚¹ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
 
     private FlyingItem flyingItem = null;
     private ImageChanges imageChanges = null;
 
-    // ƒIƒuƒWƒFƒNƒg‚ª—LŒø‚É‚È‚Á‚½‚Æ‚«
+    /// <summary>
+    /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæœ‰åŠ¹ã«ãªã£ãŸã¨ã
+    /// </summary>
     void OnEnable()
     {
-        //“ü—Í‚ğ—LŒø‚©
+        //å…¥åŠ›ã‚’æœ‰åŠ¹åŒ–
         clickAction.Enable();
         clickAction.performed += OnClick;
 
-        //ƒ‰ƒCƒ“ƒŒƒ“ƒ_ƒ‰[‚ÌƒŠƒtƒ@ƒŒƒ“ƒX‚ğ“üè‚·‚é
+        //ãƒ©ã‚¤ãƒ³æç”»ã®ãƒªãƒ•ã‚¡ãƒ¬ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
         line = LineManager.Instance.GetParabolaLineRenderer().GetLineRenderer();
 
-        //“¯ƒIƒuƒWƒFƒNƒg‚ª‚ÂƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì“üè
+        //è‡ªã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰ä»–ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åŒæœŸ
         flyingItem = GetComponent<FlyingItem>();
         imageChanges = GetComponent<ImageChanges>();
     }
 
-    // ƒIƒuƒWƒFƒNƒg‚ª–³Œø‚É‚È‚Á‚½‚Æ‚«A“ü—ÍƒAƒNƒVƒ‡ƒ“‚ğ‰ğœiƒƒ‚ƒŠƒŠ[ƒN–h~j
+    /// <summary>
+    /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç„¡åŠ¹ã«ãªã£ãŸã¨ãã€å…¥åŠ›ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚’è§£é™¤ï¼ˆãƒ¡ãƒ¢ãƒªãƒªãƒ¼ã‚¯é˜²æ­¢ï¼‰
+    /// </summary>
     void OnDisable()
     {
         clickAction.performed -= OnClick;
         clickAction.Disable();
     }
 
+    /// <summary>
+    /// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å®Ÿè¡Œ
+    /// </summary>
     void Update()
     {
-        // ˆÚ“®’†‚Ì‚İŒo˜HˆÚ“®ˆ—‚ğÀs
+        // ç§»å‹•ä¸­ã®ã¿çµŒè·¯ç§»å‹•å‡¦ç†ã‚’å®Ÿè¡Œ
         if (LineManager.Instance.isMoving)
         {
             MoveAlongPath();
         }
     }
 
-    // ƒNƒŠƒbƒN“ü—Í‚ª‚ ‚Á‚½‚Æ‚«ŒÄ‚Î‚ê‚éƒR[ƒ‹ƒoƒbƒN
+    /// <summary>
+    /// ã‚¯ãƒªãƒƒã‚¯å…¥åŠ›ãŒã‚ã£ãŸã¨ãã«å‘¼ã°ã‚Œã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
+    /// </summary>
+    /// <param name="context">å…¥åŠ›ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆ</param>
     void OnClick(InputAction.CallbackContext context)
     {
-        //ˆÚ“®’†‚È‚çÄ“xƒNƒŠƒbƒN•s‰Â
+        //ç§»å‹•ä¸­ã§ãªã‘ã‚Œã°ã‚¯ãƒªãƒƒã‚¯å‡¦ç†å®Ÿè¡Œ
         if (!LineManager.Instance.isMoving)
         {
             StartMove();
         }
     }
 
-    // ˆÚ“®‚ğŠJn‚·‚é
+    /// <summary>
+    /// ç§»å‹•ã‚’é–‹å§‹ã™ã‚‹
+    /// </summary>
     void StartMove()
     {
-        // •K—v‚ÈQÆ‚ªİ’è‚³‚ê‚Ä‚¢‚é‚©Šm”F
+        // å¿…è¦ãªå‚ç…§ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã‹ç¢ºèª
         if (line == null)
         {
-            Debug.LogError("Line‚ªİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+            Debug.LogError("LineãŒè¨­å®šã•ã‚Œã¦ã„ã¾ã›ã‚“");
             return;
         }
 
-        // LineRenderer‚Ì’¸“_”‚ªˆÚ“®Œo˜H‚Æ‚µ‚Ä¬—§‚·‚é‚©Šm”F
+        // LineRendererã®é ‚ç‚¹ãŒç§»å‹•çµŒè·¯ã¨ã—ã¦ååˆ†ã‹ç¢ºèª
         int count = line.positionCount;
         if (count < 2)
         {
-            Debug.LogError("LineRenderer‚Ì’¸“_‚ª‘«‚è‚Ü‚¹‚ñ");
+            Debug.LogError("LineRendererã®é ‚ç‚¹ãŒè¶³ã‚Šã¾ã›ã‚“");
             return;
         }
 
-        // LineRenderer‚©‚ç‘S’¸“_À•W‚ğæ“¾
+        // LineRendererã‹ã‚‰å…¨é ‚ç‚¹åº§æ¨™ã‚’å–å¾—
         points = new Vector3[count];
         line.GetPositions(points);
 
-        // ƒAƒCƒeƒ€‚ğn“_‚É”z’u‚µAˆÚ“®‚ğŠJn
+        // ã‚¢ã‚¤ãƒ†ãƒ ã‚’å§‹ç‚¹ã«é…ç½®ã—ã€ç§»å‹•ã‚’é–‹å§‹
         transform.position = points[0];
         currentIndex = 0;
+        currentSpeed = initialSpeed;  // ç¾åœ¨ã®é€Ÿåº¦ã‚’åˆæœŸé€Ÿåº¦ã«è¨­å®š
         LineManager.Instance.isMoving = true;
-
+        LineManager.Instance.ClearParticleFunc();
     }
 
-    // Œo˜H‚É‰ˆ‚Á‚ÄƒAƒCƒeƒ€‚ğˆÚ“®‚³‚¹‚éiUpdate–ˆ‚ÉŒÄ‚Î‚ê‚éj
+    /// <summary>
+    /// çµŒè·¯ã«æ²¿ã£ã¦ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç§»å‹•ã•ã›ã‚‹ï¼ˆUpdateã‹ã‚‰å‘¼ã°ã‚Œã‚‹ï¼‰
+    /// </summary>
     void MoveAlongPath()
     {
-        // I“_‚É“’B‚µ‚½‚çˆÚ“®‚ğI—¹
+        // çµ‚ç‚¹ã«åˆ°é”ã—ãŸã‚‰ç§»å‹•çµ‚äº†
         if (currentIndex >= LineManager.Instance.PassConflictSegmentCount() - 1)
         {
             LineManager.Instance.isMoving = false;
@@ -106,14 +141,29 @@ public class MoveAlongLine : MonoBehaviour
         Vector3 start = points[currentIndex];
         Vector3 end = points[currentIndex + 1];
 
-        // Œ»İ‚Ì–Ú•W’¸“_‚Öˆê’è‘¬“x‚ÅˆÚ“®
+        // Yåº§æ¨™ã®å¤‰åŒ–ã‚’åˆ¤å®š
+        float yDifference = end.y - start.y;
+
+        if (yDifference > 0.01f)
+        {
+            // ä¸Šæ˜‡ä¸­ï¼šæ¸›é€Ÿ
+            currentSpeed = Mathf.Max(currentSpeed - ascendDeceleration * Time.deltaTime, minSpeed);
+        }
+        else if (yDifference < -0.01f)
+        {
+            // ä¸‹é™ä¸­ï¼šåŠ é€Ÿ
+            currentSpeed = Mathf.Min(currentSpeed + descendAcceleration * Time.deltaTime, maxSpeed);
+        }
+        // ãã‚Œä»¥å¤–ï¼ˆæ°´å¹³ç§»å‹•ï¼‰ã¯é€Ÿåº¦ã‚’ç¶­æŒ
+
+        // ç¾åœ¨ã®ç›®æ¨™é ‚ç‚¹ã¸ç¾åœ¨ã®é€Ÿåº¦ã§ç§»å‹•
         transform.position = Vector3.MoveTowards(
             transform.position,
             end,
-            speed * Time.deltaTime
+            currentSpeed * Time.deltaTime
         );
 
-        // –Ú•W’¸“_‚É\•ª‹ß‚Ã‚¢‚½‚çŸ‚Ì’¸“_‚Öi‚Ş
+        // ç›®æ¨™é ‚ç‚¹ã«ååˆ†è¿‘ã¥ã„ãŸã‚‰æ¬¡ã®é ‚ç‚¹ã¸é€²ã‚€
         if (Vector3.Distance(transform.position, end) < 0.01f)
         {
             currentIndex++;
