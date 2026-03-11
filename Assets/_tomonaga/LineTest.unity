@@ -479,8 +479,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64e91389e549e67429d530fc2afb9aed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParabolaLineRenderer
-  segmentCount: 30
-  height: 2
+  segmentCount: 60
+  height: 3
   particlePrefab: {fileID: 2958148841801032207, guid: d8565f0ffd35f3e4d81d0252f3f6fb4b, type: 3}
   collisionCheckRadius: 0.5
 --- !u!4 &500659863
