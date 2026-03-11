@@ -1,16 +1,18 @@
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.UI;
 using static ItemDataBase;
 
 public class GameOverSystem : MonoBehaviour
 {
     [SerializeField, Tooltip("リザルト画面")]
-    private GameObject resultObj;
+    private CanvasGroup resultObj;
 
     private void Awake()
     {
         //非表示
-        resultObj.SetActive(false);
+        //resultObj.SetActive(false);
+        resultObj.alpha = 0;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -34,6 +36,7 @@ public class GameOverSystem : MonoBehaviour
 
         //表示と画面の再生停止
         GameManager.Instance.isGameover = true;
-        resultObj.SetActive(true);
+        //resultObj.SetActive(true);
+        resultObj.alpha = 1;
     }
 }
