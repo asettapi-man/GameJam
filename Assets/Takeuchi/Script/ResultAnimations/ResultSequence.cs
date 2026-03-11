@@ -12,7 +12,8 @@ public class ResultSequence : MonoBehaviour
     [SerializeField] bool debug;
 
     private bool isPlaying = false;
-
+    //何個ずつアニメーションを再生するかの数
+    [SerializeField]int groupSize = 4;
     void Start()
     {
         animations = GetComponentsInChildren<ResultAnimation>();
@@ -29,11 +30,10 @@ public class ResultSequence : MonoBehaviour
 
     IEnumerator PlaySequence()
     {
-        int groupSize = 5;
 
         for (int i = 0; i < animations.Length; i += groupSize)
         {
-            // 5個再生
+            // 4個再生
             for (int j = i; j < i + groupSize && j < animations.Length; j++)
             {
                 animations[j].Play();
