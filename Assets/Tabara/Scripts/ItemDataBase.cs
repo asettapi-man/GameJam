@@ -10,7 +10,7 @@ public class ItemDataBase : ScriptableObject
     {
         [Tooltip("投擲物名")]         public string itemName;
         [Tooltip("お金（スコア用）")] public int money;
-        [Tooltip("重さ")]             public float gravity;
+        [Tooltip("画像の大きさ")]     public float scale;
         [Tooltip("画像")]             public Sprite sprite;
         [Tooltip("効果音")]           public AudioClip clip;
     }

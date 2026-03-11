@@ -10,6 +10,8 @@ public class FlyingItem : MonoBehaviour
     //アイテムデータ１件分
     private ItemDataBase.ItemData itemData;
 
+    private ImageChanges imageChanges;
+
     // 予測着地点のプレハブ
     [SerializeField,Header("予測地点用オブジェクト")]
     private GameObject predictionPointPrafabs;
@@ -25,10 +27,6 @@ public class FlyingItem : MonoBehaviour
     // アイテムに表示するスプライト
     private Sprite itemSprite;
 
-    // 終点までの初期距離
-    [SerializeField, Header("予測地点までの距離"), Range(0, 20)]
-    private int predictionDistance;
-
     // 生成した終点オブジェクトへの参照
     private GameObject endObj;
 
@@ -42,22 +40,30 @@ public class FlyingItem : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // 終点と予測点のオブジェクトを生成
-        endObj = Instantiate(endPointPrafabs, new Vector3(predictionDistance, 0, 0), Quaternion.identity);
-        preObj = Instantiate(predictionPointPrafabs, new Vector3(predictionDistance, 0, 0), Quaternion.identity);
+        //終点と予測点の初期位置を取得
+        Vector3 initialEndPos = LineManager.Instance.GetinitialPosition();
 
-        //Debug.Log("予測地点生成");
+        // 終点と予測点のオブジェクトを生成
+        endObj = Instantiate(endPointPrafabs, initialEndPos, Quaternion.identity);
+        preObj = Instantiate(predictionPointPrafabs, initialEndPos, Quaternion.identity);
 
         // LineManagerに3点を登録して放物線描画開始
         LineManager.Instance.SetFlyingPoints(this.gameObject, endObj,preObj);
+
+        //スクリプトの同期
+        imageChanges = GetComponent<ImageChanges>();
     }
 
     private void Update()
     {
+        itemData = imageChanges.currentData;
+        var scale = itemData.scale;
+
         // 予測点の見た目を設定
-        SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();　//スプライトレンダラーの取得
-        spriteRenderer.sprite = GetComponent<SpriteRenderer>().sprite;          //スプライトを適応
-        spriteRenderer.color = predictionPointColor;                            //色を適応
+        SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();　        //スプライトレンダラーの取得
+        spriteRenderer.sprite = GetComponent<SpriteRenderer>().sprite;                  //スプライトを適応
+        spriteRenderer.color = predictionPointColor;                                    //色を適応
+        preObj.GetComponent<Transform>().localScale = new Vector3(scale, scale, scale); //画像の大きさを適応
     }
 
     /// <summary>
@@ -87,19 +93,5 @@ public class FlyingItem : MonoBehaviour
         //投げたアイテムのデータを追加
         GameManager.Instance.itemDatas.Add(itemData);
         Debug.Log($"カップ内のアイテム数：{GameManager.Instance.itemDatas.Count}");
-    }
-
-    /// <summary>
-    /// アイテムデータの設定
-    /// </summary>
-    /// <param name="data"></param>
-    public void SetItemData(ItemDataBase.ItemData data)
-    {
-        itemData = data;
-
-        Debug.Log($"投げたアイテムのデータ");
-        Debug.Log($"名前：{itemData.itemName}");
-        Debug.Log($"お金：{itemData.money}");
-        Debug.Log($"重さ：{itemData.gravity}");
     }
 }

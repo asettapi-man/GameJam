@@ -146,7 +146,7 @@ public class ParabolaLineRenderer : MonoBehaviour
     /// <summary>
     /// 既存の全パーティクルを破棄
     /// </summary>
-    void ClearParticles()
+    public void ClearParticles()
     {
         for (int i = 0; i < particles.Length; i++)
         {
@@ -205,25 +205,57 @@ public class ParabolaLineRenderer : MonoBehaviour
         // 放物線の頂点を始点側からチェック
         for (int i = 0; i < segmentCount-1; i++)
         {
-
             Vector3 checkConflictPos = line.GetPosition(i);
 
             // この位置で衝突判定
             if (Physics2D.OverlapCircle(checkConflictPos, collisionCheckRadius))
             {
                 // 衝突した位置を発見
-                // 衝突位置の1つ前（i-1）を予測点として設定
-                LineManager.Instance.UpdatePredictionPointPos(line.GetPosition(Mathf.Max(0, i - 1)));
+                // 衝突位置の1つ前（i-1）を予測点候補として取得
+                int candidateIndex = Mathf.Max(0, i - 1);
+                Vector3 tentativePredictionPos = line.GetPosition(candidateIndex);
 
-                conflictSegmentCount = i;
+                // 予測点候補も障害物と接触しているかチェック
+                if (Physics2D.OverlapCircle(tentativePredictionPos, collisionCheckRadius))
+                {
+                    // 予測点候補も衝突している場合、安全な位置を探す
+                    bool foundSafePosition = false;
+
+                    // さらに前の頂点を探す（i-2, i-3, ...と遡る）
+                    for (int j = candidateIndex - 1; j >= 0; j--)
+                    {
+                        Vector3 saferPos = line.GetPosition(j);
+
+                        // 衝突していない安全な位置を見つけた
+                        if (!Physics2D.OverlapCircle(saferPos, collisionCheckRadius))
+                        {
+                            LineManager.Instance.UpdatePredictionPointPos(saferPos);
+                            conflictSegmentCount = j + 1;
+                            foundSafePosition = true;
+                            return;
+                        }
+                    }
+
+                    // すべての頂点で衝突している場合は始点を予測点に
+                    if (!foundSafePosition)
+                    {
+                        Debug.LogWarning("放物線全体が衝突しています - 始点を予測点に設定");
+                        LineManager.Instance.UpdatePredictionPointPos(line.GetPosition(0));
+                        conflictSegmentCount = 1;
+                    }
+                }
+                else
+                {
+                    // 予測点候補が安全な場合はそのまま設定
+                    LineManager.Instance.UpdatePredictionPointPos(tentativePredictionPos);
+                    conflictSegmentCount = i;
+                }
 
                 return;
             }
-
-
         }
 
-        // すべての頂点で衝突している場合の処理
+        // すべての頂点で衝突していない場合（ここには到達しないはず）
         Debug.LogWarning("放物線全体が衝突しています");
     }
 

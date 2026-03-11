@@ -25,7 +25,7 @@ public class ImageChanges : MonoBehaviour
     private void Update()
     {
         //左クリックを押したらコルーチンを止める
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame && !PauseManager.Instance.isPause)
         {
             StopCoroutine(coroutine);
         }
@@ -43,6 +43,8 @@ public class ImageChanges : MonoBehaviour
             //現在の画像を表示する
             currentData = itemDatas.datas[index];
             displayImage.sprite = currentData.sprite;
+            var scale = currentData.scale;
+            displayImage.gameObject.GetComponent<Transform>().localScale = new Vector3(scale, scale, scale);
 
             //指定した間隔だけ待機する
             yield return new WaitForSeconds(interval);
