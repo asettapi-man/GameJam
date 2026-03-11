@@ -10,15 +10,15 @@ public class MoveAlongLine : MonoBehaviour
     private LineRenderer line;
 
     // 初期速度
-    [SerializeField, Header("初期速度"), Range(0, 10f)]
+    [SerializeField, Header("初期速度"), Range(0, 15f)]
     private float initialSpeed = 1f;
 
     // 最高速度
-    [SerializeField, Header("最高速度"), Range(0, 20f)]
+    [SerializeField, Header("最高速度"), Range(0, 30f)]
     private float maxSpeed = 10f;
 
     // 最低速度（減速時の下限）
-    [SerializeField, Header("最低速度"), Range(0, 5f)]
+    [SerializeField, Header("最低速度"), Range(0, 10f)]
     private float minSpeed = 0.5f;
 
     // 下降時の加速度（毎秒どれだけ速度を増やすか）
@@ -122,6 +122,7 @@ public class MoveAlongLine : MonoBehaviour
         currentIndex = 0;
         currentSpeed = initialSpeed;  // 現在の速度を初期速度に設定
         LineManager.Instance.isMoving = true;
+        LineManager.Instance.ClearParticleFunc();
     }
 
     /// <summary>

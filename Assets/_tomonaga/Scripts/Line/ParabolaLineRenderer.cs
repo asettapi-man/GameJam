@@ -146,7 +146,7 @@ public class ParabolaLineRenderer : MonoBehaviour
     /// <summary>
     /// 既存の全パーティクルを破棄
     /// </summary>
-    void ClearParticles()
+    public void ClearParticles()
     {
         for (int i = 0; i < particles.Length; i++)
         {

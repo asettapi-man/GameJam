@@ -158,5 +158,13 @@ public class LineManager:MonoBehaviour
         Vector3 initinalPosition = initialPredictionObject.transform.position;
         return initinalPosition;
     }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    public void ClearParticleFunc()
+    {
+        lineRendererComponentRef.ClearParticles();
+    }
 
 }
