@@ -24,7 +24,7 @@ public class MouseWheelHorizontalMove : MonoBehaviour
         float scrollAmount = scroll.y;
 
         // 入力があった時のみ移動処理を実行
-        if (scrollAmount != 0)
+        if (scrollAmount != 0 && !LineManager.Instance.isMoving)
         {
             MoveObject(scrollAmount);
         }

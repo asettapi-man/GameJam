@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7715464433230502958}
   m_Layer: 0
   m_Name: FlyingItem
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2420664510065762595, guid: 9d3e0835b90d2df47b564e3be9e2d167, type: 3}
+  m_Sprite: {fileID: -8556154561557658812, guid: 7ac369af3e16ba64b83a11a3ed781ae4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -109,7 +109,6 @@ MonoBehaviour:
   predictionPointPrafabs: {fileID: 1325858626481567408, guid: c59cedde2029984418cdd77f878819c5, type: 3}
   endPointPrafabs: {fileID: 3384560392460932849, guid: dc7f2cc64a310b9478889f55819f7701, type: 3}
   predictionPointColor: {r: 1, g: 1, b: 1, a: 0.3019608}
-  itemSprite: {fileID: -6548676402394200069, guid: 68c5aa8dcaf76aa49bb7322bc525d0f8, type: 3}
   predictionDistance: 4
 --- !u!114 &7282572041452655928
 MonoBehaviour:
@@ -156,3 +155,9 @@ MonoBehaviour:
   displayImage: {fileID: 3648064246364785239}
   itemDatas: {fileID: 11400000, guid: fd93c9d2a2223f946942a2a3b1e19e56, type: 2}
   interval: 0.2
+  currentData:
+    itemName: 
+    money: 0
+    gravity: 0
+    sprite: {fileID: 0}
+    clip: {fileID: 0}

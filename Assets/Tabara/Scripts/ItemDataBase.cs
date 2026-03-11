@@ -11,6 +11,7 @@ public class ItemDataBase : ScriptableObject
         [Tooltip("投擲物名")]         public string itemName;
         [Tooltip("お金（スコア用）")] public int money;
         [Tooltip("重さ")]             public float gravity;
+        [Tooltip("画像の大きさ")]     public float scale;
         [Tooltip("画像")]             public Sprite sprite;
         [Tooltip("効果音")]           public AudioClip clip;
     }
@@ -18,6 +19,11 @@ public class ItemDataBase : ScriptableObject
     [Tooltip("投擲物の情報データベース")]
     public List<ItemData> datas;
 
+    /// <summary>
+    /// 名前別アイテムデータの取得
+    /// </summary>
+    /// <param name="itemName">検索するアイテム名</param>
+    /// <returns>一致した名前のデータを返す</returns>
     public ItemData GetItemData(string itemName)
     {
         var data = datas.Find(data => data.itemName == itemName);

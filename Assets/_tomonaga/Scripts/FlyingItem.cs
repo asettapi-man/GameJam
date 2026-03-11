@@ -7,6 +7,11 @@ using UnityEngine;
 /// </summary>
 public class FlyingItem : MonoBehaviour
 {
+    //アイテムデータ１件分
+    private ItemDataBase.ItemData itemData;
+
+    private ImageChanges imageChanges;
+
     // 予測着地点のプレハブ
     [SerializeField,Header("予測地点用オブジェクト")]
     private GameObject predictionPointPrafabs;
@@ -47,14 +52,21 @@ public class FlyingItem : MonoBehaviour
 
         // LineManagerに3点を登録して放物線描画開始
         LineManager.Instance.SetFlyingPoints(this.gameObject, endObj,preObj);
+
+        //スクリプトの同期
+        imageChanges = GetComponent<ImageChanges>();
     }
 
     private void Update()
     {
+        itemData = imageChanges.currentData;
+        var scale = itemData.scale;
+
         // 予測点の見た目を設定
         SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();　//スプライトレンダラーの取得
         spriteRenderer.sprite = GetComponent<SpriteRenderer>().sprite;          //スプライトを適応
         spriteRenderer.color = predictionPointColor;                            //色を適応
+        preObj.GetComponent<Transform>().localScale = new Vector3(scale, scale, scale); //画像の大きさを適応
     }
 
     /// <summary>
@@ -80,6 +92,9 @@ public class FlyingItem : MonoBehaviour
         // 終点と予測点のオブジェクトを削除
         Destroy(endObj);
         Destroy(preObj);
-    }
 
+        //投げたアイテムのデータを追加
+        GameManager.Instance.itemDatas.Add(itemData);
+        Debug.Log($"カップ内のアイテム数：{GameManager.Instance.itemDatas.Count}");
+    }
 }
