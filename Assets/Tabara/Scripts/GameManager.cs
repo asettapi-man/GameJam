@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         //ÉVÅ[ÉìÇÇ‹ÇΩÇ¢Ç≈Ç‡è¡Ç¶Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈ
-        //DontDestroyOnLoad(gameObject);  
+        //DontDestroyOnLoad(gameObject);
+        //
+        Cursor.visible = true;
     }
 }
