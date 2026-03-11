@@ -97,18 +97,4 @@ public class FlyingItem : MonoBehaviour
         GameManager.Instance.itemDatas.Add(itemData);
         Debug.Log($"カップ内のアイテム数：{GameManager.Instance.itemDatas.Count}");
     }
-
-    /// <summary>
-    /// アイテムデータの設定
-    /// </summary>
-    /// <param name="data"></param>
-    public void SetItemData(ItemDataBase.ItemData data)
-    {
-        itemData = data;
-
-        Debug.Log($"投げたアイテムのデータ");
-        Debug.Log($"名前：{itemData.itemName}");
-        Debug.Log($"お金：{itemData.money}");
-        Debug.Log($"重さ：{itemData.gravity}");
-    }
 }
