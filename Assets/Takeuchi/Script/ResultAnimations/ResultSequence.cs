@@ -5,14 +5,33 @@ using UnityEngine.UI;
 public class ResultSequence : MonoBehaviour
 {
     public float interval = 0.95f;
+    [SerializeField] private float soundDelay = 0.3f;
+    [SerializeField] private ResultAnimation[] animations;
+    [SerializeField] private Animator checkoutAnimation;
 
-    [SerializeField] ResultAnimation[] animations;
-    [SerializeField] Animator checkoutAnimation;
-    [SerializeField] ScrollRect scrollRect; // ScrollView
-    [SerializeField] bool debug;
+    /// <summary>
+    /// インスペクターで設定する
+    /// Scroll View 
+    /// </summary>
+    [SerializeField] private ScrollRect scrollRect;
+    
+    //デバッグ用のブール
+    [SerializeField] private bool debug; 
+    /// <summary>
+    /// インスペクターで設定する
+    /// アニメーションを再生する度に鳴らすSE
+    /// </summary>
+    [SerializeField] private AudioSource audioSource;
+
+    /// <summary>
+    /// インスペクターで設定する
+    /// 合計金額のアニメーションを再生する時に鳴らすSE
+    /// </summary>
+   [SerializeField] private AudioSource checkoutAudioSource;
 
     private bool isPlaying = false;
-
+    //何個ずつアニメーションを再生するかの数
+    [SerializeField] private　int groupSize = 4;
     void Start()
     {
         animations = GetComponentsInChildren<ResultAnimation>();
@@ -29,14 +48,14 @@ public class ResultSequence : MonoBehaviour
 
     IEnumerator PlaySequence()
     {
-        int groupSize = 5;
 
         for (int i = 0; i < animations.Length; i += groupSize)
         {
-            // 5個再生
+            // 4個再生
             for (int j = i; j < i + groupSize && j < animations.Length; j++)
             {
                 animations[j].Play();
+                StartCoroutine(PlaySoundDelay());
             }
 
             // スクロールを少し下げる
@@ -46,6 +65,12 @@ public class ResultSequence : MonoBehaviour
         }
 
         CheckoutAnimationPlay();
+    }
+
+    IEnumerator PlaySoundDelay()
+    {
+        yield return new WaitForSeconds(soundDelay);
+        audioSource.Play();
     }
 
     void ScrollDown()
@@ -61,5 +86,6 @@ public class ResultSequence : MonoBehaviour
     void CheckoutAnimationPlay()
     {
         checkoutAnimation.SetTrigger("Play");
+        checkoutAudioSource.Play();
     }
 }
