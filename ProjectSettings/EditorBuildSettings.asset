@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Ritsuki/Scene/TestScene.unity
     guid: ab97f7d319a82c441a0d5785c62d7d8e
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/TitleScene.unity
     guid: e4967f7bebbdd6249a33a2b383869f25
   m_configObjects:

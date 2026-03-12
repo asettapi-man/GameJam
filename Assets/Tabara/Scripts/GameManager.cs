@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public List<ItemDataBase.ItemData> itemDatas;
 
+    //ゲームオーバーフラグ
+    [HideInInspector]
+    public bool isGameOver = false;
+
     private void Awake()
     {
         //自分自身以外がいるか？
@@ -23,6 +27,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         //シーンをまたいでも消えないようにする
-        DontDestroyOnLoad(gameObject);  
+        //DontDestroyOnLoad(gameObject);
+        //
+        Cursor.visible = true;
     }
 }

@@ -190,20 +190,8 @@ public class ParabolaLineRenderer : MonoBehaviour
     /// </summary>
     void AdjustEndPointPosition()
     {
-
-        // 接触点が存在しない場合は終点が予測地点になる
-        if (!Physics2D.OverlapCircle(endPoint.position, collisionCheckRadius))
-        {
-
-            conflictSegmentCount = segmentCount;
-            LineManager.Instance.UpdatePredictionPointPos(endPoint.position);
-            return;
-        }
-
-
-
-        // 放物線の頂点を始点側からチェック
-        for (int i = 0; i < segmentCount-1; i++)
+        // 放物線の頂点を始点側から順番にチェック
+        for (int i = 0; i < segmentCount; i++)
         {
             Vector3 checkConflictPos = line.GetPosition(i);
 
@@ -255,8 +243,9 @@ public class ParabolaLineRenderer : MonoBehaviour
             }
         }
 
-        // すべての頂点で衝突していない場合（ここには到達しないはず）
-        Debug.LogWarning("放物線全体が衝突しています");
+        // すべての頂点で衝突していない場合は終点を予測点に
+        conflictSegmentCount = segmentCount;
+        LineManager.Instance.UpdatePredictionPointPos(endPoint.position);
     }
 
     /// <summary>

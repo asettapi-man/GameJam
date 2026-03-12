@@ -1,23 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;
-
+using static ItemDataBase;
 /// <summary>
-/// リザルトUIの数字データ用コンポーネント
-/// 仮の数値を設定してTextに表示する
+/// リザルトUIの数字表示用
 /// </summary>
 public class ResultText : MonoBehaviour
 {
-    [SerializeField]
-    private Text text; // 表示するUIテキスト
+    [SerializeField] private Text text;
 
     void Awake()
     {
-        // Textが未設定なら自動取得
         if (text == null)
             text = GetComponent<Text>();
     }
-    public void UpdateText(int counts)
+
+    /// <summary>
+    /// 数字表示
+    /// </summary>
+    public void SetText(int value)
     {
-        text.text = counts.ToString();
+        text.text = value.ToString();
     }
 }

@@ -19,19 +19,6 @@ public class ItemDataBase : ScriptableObject
     public List<ItemData> datas;
 
     /// <summary>
-    /// 名前別アイテムデータの取得
-    /// </summary>
-    /// <param name="itemName">検索するアイテム名</param>
-    /// <returns>一致した名前のデータを返す</returns>
-    public ItemData GetItemData(string itemName)
-    {
-        var data = datas.Find(data => data.itemName == itemName);
-
-        //データがあれば、そのデータを返す
-        return data != null ? data : null;
-    }
-
-    /// <summary>
     /// アイテム別の個数の合計を取得
     /// </summary>
     /// <param name="itemName">投擲物名</param>

@@ -18,6 +18,9 @@ public class MouseWheelHorizontalMove : MonoBehaviour
     /// </summary>
     void Update()
     {
+        //ゲームオーバー時以外は実行
+        if (GameManager.Instance.isGameOver) return;
+
         // マウスホイールのスクロール量を取得
         Vector2 scroll = Mouse.current.scroll.ReadValue();
 
