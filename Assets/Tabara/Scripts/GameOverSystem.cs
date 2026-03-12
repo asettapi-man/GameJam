@@ -57,6 +57,14 @@ public class GameOverSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(interval);
 
+        DisplayResult();
+    }
+
+    /// <summary>
+    /// リザルト画面の表示
+    /// </summary>
+    public void DisplayResult()
+    {
         //表示と画面の再生停止
         resultObj.alpha = 1;
         resultObj.blocksRaycasts = true;

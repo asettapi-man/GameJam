@@ -36,6 +36,7 @@ public class ImageChanges : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame && !PauseManager.Instance.isPause)
         {
             StopCoroutine(coroutine);
+            return;
         }
     }
 
