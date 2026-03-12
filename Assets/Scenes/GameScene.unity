@@ -9194,7 +9194,7 @@ GameObject:
   - component: {fileID: 1859614688}
   m_Layer: 0
   m_Name: AudioThrow
-  m_TagString: Untagged
+  m_TagString: ThrowAudio
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9708,8 +9708,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1292064496}
   - {fileID: 1015435816}
+  - {fileID: 1292064496}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
