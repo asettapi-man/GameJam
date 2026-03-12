@@ -12,6 +12,13 @@ public class MouseWheelHorizontalMove : MonoBehaviour
     [SerializeField,Header("ホイール操作時の移動倍率"),Range(0,0.1f)]
     private float moveSpeed = 0.01f;
 
+
+    [SerializeField, Header("X座標の最小値")]
+    private float minX = -2.4f;
+
+    [SerializeField, Header("X座標の最大値")]
+    private float maxX = 5.4f;
+
     /// <summary>
     /// 毎フレーム実行される処理
     /// マウスホイールの入力を監視
@@ -46,13 +53,16 @@ public class MouseWheelHorizontalMove : MonoBehaviour
         // X座標を入力量×速度分だけ移動
         pos.x += input * moveSpeed;
 
+        // X座標の範囲制限
+        pos.x = Mathf.Clamp(pos.x, minX, maxX);
+
         // 位置を更新
         transform.position = pos;
 
         // 放物線を再描画
         LineManager.Instance.UpadateLine();
 
-        // 終点の位置を更新（このtransformが終点または予測点）
+        // 終点の位置を更新
         LineManager.Instance.UpdateEndPointsPos(transform);
     }
 }
