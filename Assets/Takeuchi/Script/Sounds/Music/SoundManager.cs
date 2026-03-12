@@ -23,16 +23,16 @@ public class SoundManager : MonoBehaviour
     void Awake()
     {
         // Singleton
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // シーンを跨いでも残す
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        //if (Instance == null)
+        //{
+        //    Instance = this;
+        //    DontDestroyOnLoad(gameObject); // シーンを跨いでも残す
+        //}
+        //else
+        //{
+        //    Destroy(gameObject);
+        //    return;
+        //}
 
         // SoundSource取得
         RegisterAllSources();
@@ -231,9 +231,13 @@ public class SoundManager : MonoBehaviour
 
     void LoadVolume()
     {
-        masterVolume = PlayerPrefs.GetFloat("MASTER_VOLUME", 1f);
-        bgmVolume = PlayerPrefs.GetFloat("BGM_VOLUME", 1f);
-        seVolume = PlayerPrefs.GetFloat("SE_VOLUME", 1f);
+        SetMasterVolume(PlayerPrefs.GetFloat("MASTER_VOLUME", 1f));
+        SetBGMVolume(PlayerPrefs.GetFloat("BGM_VOLUME", 1f));
+        SetSEVolume(PlayerPrefs.GetFloat("SE_VOLUME", 1f));
+
+        //masterVolume = PlayerPrefs.GetFloat("MASTER_VOLUME", 1f);
+        //bgmVolume = PlayerPrefs.GetFloat("BGM_VOLUME", 1f);
+        //seVolume = PlayerPrefs.GetFloat("SE_VOLUME", 1f);
 
         if (masterSlider) masterSlider.value = masterVolume;
         if (bgmSlider) bgmSlider.value = bgmVolume;
