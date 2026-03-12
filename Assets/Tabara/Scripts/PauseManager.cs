@@ -42,9 +42,11 @@ public class PauseManager : MonoBehaviour
     /// <param name="context"></param>
     private void OnPause(InputAction.CallbackContext context)
     {
+        //このシーンの名前を取得
         var sceneName = SceneManager.GetActiveScene().name;
 
-        if (sceneName == "GameScene")
+        //シーン名が一致・ゲームオーバー時以外か？
+        if (sceneName == "GameScene" && !GameManager.Instance.isGameOver)
         {
             PauseSystem();
         }

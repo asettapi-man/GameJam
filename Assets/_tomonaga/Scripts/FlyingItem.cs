@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// 投げられるアイテムを管理するクラス
@@ -37,6 +38,8 @@ public class FlyingItem : MonoBehaviour
     public ParticleSystem shootingEffect;
 
     private AudioSource audioSource;
+
+    private float interval = 1.0f;
 
 
 
@@ -84,6 +87,11 @@ public class FlyingItem : MonoBehaviour
     /// </summary>
     public void FinishFlying()
     {
+        StartCoroutine(GetInterval(interval));
+    }
+
+    private IEnumerator GetInterval(float interval)
+    {
         // 放物線移動スクリプトを削除
         Destroy(GetComponent<MoveAlongLine>());
 
@@ -91,11 +99,13 @@ public class FlyingItem : MonoBehaviour
         gameObject.AddComponent<Rigidbody2D>();
         gameObject.AddComponent<PolygonCollider2D>();
 
+        // LineManagerの参照をリセットし、放物線を非表示
+        yield return new WaitForSeconds(interval);
+
+        LineManager.Instance.ReSetFlyingPoints();
+
         // このスクリプト自体を削除
         Destroy(GetComponent<FlyingItem>());
-
-        // LineManagerの参照をリセットし、放物線を非表示
-        LineManager.Instance.ReSetFlyingPoints();
 
         // 終点と予測点のオブジェクトを削除
         Destroy(endObj);
@@ -105,7 +115,7 @@ public class FlyingItem : MonoBehaviour
         GameManager.Instance.itemDatas.Add(itemData);
         Debug.Log($"カップ内のアイテム数：{GameManager.Instance.itemDatas.Count}");
 
-        shootingEffect.loop = false;    
+        shootingEffect.loop = false;
     }
 
 
