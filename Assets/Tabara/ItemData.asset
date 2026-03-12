@@ -123,16 +123,6 @@ MonoBehaviour:
     scale: 0.08
     sprite: {fileID: -5878400806048592041, guid: 6e7ece824c6ab2d4ebe407d2e6907b3a, type: 3}
     clip: {fileID: 0}
-  - itemName: softServe
-    money: 700
-    scale: 0.09
-    sprite: {fileID: -1091397686813472860, guid: dc9a6ed22e8485f4791a075dc66cb68b, type: 3}
-    clip: {fileID: 0}
-  - itemName: canele
-    money: 400
-    scale: 0.05
-    sprite: {fileID: -3767195182922523210, guid: e7e2b782c5dcd1144b4e93a839a7c1f6, type: 3}
-    clip: {fileID: 0}
   - itemName: tart
     money: 600
     scale: 0.08
@@ -143,12 +133,12 @@ MonoBehaviour:
     scale: 0.05
     sprite: {fileID: 2566787816385907332, guid: 6a0524da444047044bf2ebacc2c8dc6d, type: 3}
     clip: {fileID: 0}
-  - itemName: GreenMacaron
+  - itemName: greenMacaron
     money: 200
     scale: 0.05
     sprite: {fileID: 5660181477704613605, guid: e8c8a7a504300a14fa4511ae8c80e1ae, type: 3}
     clip: {fileID: 0}
-  - itemName: PinkMacaron
+  - itemName: pinkMacaron
     money: 200
     scale: 0.05
     sprite: {fileID: 2904691691937764431, guid: 17c873bde0c62114fb98683b753fd408, type: 3}

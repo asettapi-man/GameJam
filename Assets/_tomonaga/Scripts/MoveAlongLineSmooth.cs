@@ -130,8 +130,6 @@ public class MoveAlongLine : MonoBehaviour
         LineManager.Instance.ClearParticleFunc();
 
         flyingItem.StartFlying();
-
-      
     }
 
     /// <summary>

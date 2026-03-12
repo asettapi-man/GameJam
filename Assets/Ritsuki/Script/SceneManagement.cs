@@ -65,8 +65,5 @@ public class SceneManagement : MonoBehaviour
     {
         //アプリの場合
         Application.Quit();
-
-        //デバックの場合
-        UnityEditor.EditorApplication.isPlaying = false;
     }
 }

@@ -26,7 +26,7 @@ public class SoundManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // シーンを跨いでも残す
+            //DontDestroyOnLoad(gameObject); // シーンを跨いでも残す
         }
         else
         {
@@ -42,10 +42,6 @@ public class SoundManager : MonoBehaviour
 
         // 初期音量適用
         ApplyVolume();
-
-        masterSlider = GameObject.FindWithTag("MasterSlider").GetComponent<Slider>();
-        bgmSlider = GameObject.FindWithTag("BGMSlider").GetComponent<Slider>();
-        seSlider = GameObject.FindWithTag("SESlider").GetComponent<Slider>();
 
     }
 
@@ -90,9 +86,9 @@ public class SoundManager : MonoBehaviour
        UIスライダー
     ======================== */
 
-    private Slider masterSlider;
-    private Slider bgmSlider;
-    private Slider seSlider;
+    public Slider masterSlider;
+    public Slider bgmSlider;
+    public Slider seSlider;
 
     /* ========================
        音量変更
@@ -231,6 +227,10 @@ public class SoundManager : MonoBehaviour
 
     void LoadVolume()
     {
+        //SetMasterVolume(PlayerPrefs.GetFloat("MASTER_VOLUME", 1f));
+        //SetBGMVolume(PlayerPrefs.GetFloat("BGM_VOLUME", 1f));
+        //SetSEVolume(PlayerPrefs.GetFloat("SE_VOLUME", 1f));
+
         masterVolume = PlayerPrefs.GetFloat("MASTER_VOLUME", 1f);
         bgmVolume = PlayerPrefs.GetFloat("BGM_VOLUME", 1f);
         seVolume = PlayerPrefs.GetFloat("SE_VOLUME", 1f);
