@@ -619,6 +619,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd8bd2541d91f94b924316a746c00c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
+  masterSlider: {fileID: 791576516}
+  bgmSlider: {fileID: 78607034}
+  seSlider: {fileID: 1448651590}
 --- !u!4 &154902343
 Transform:
   m_ObjectHideFlags: 0
