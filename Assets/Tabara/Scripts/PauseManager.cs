@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,7 +42,12 @@ public class PauseManager : MonoBehaviour
     /// <param name="context"></param>
     private void OnPause(InputAction.CallbackContext context)
     {
-        PauseDisplayAudioPanel();
+        var sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName == "GameScene")
+        {
+            PauseSystem();
+        }
     }
 
     /// <summary>
@@ -53,23 +58,10 @@ public class PauseManager : MonoBehaviour
         //フラグを反転
         isPause = !isPause;
 
-        //フラグによって値を変更
-        Time.timeScale = isPause ? 0.0f : 1.0f;
-    }
-
-
-    /// <summary>
-    /// 一時停止と再生を切り替え（音量調整画面の表示）
-    /// </summary>
-    public void PauseDisplayAudioPanel()
-    {
-        //フラグを反転
-        isPause = !isPause;
-
-        //フラグによって値を変更
-        Time.timeScale = isPause ? 0.0f : 1.0f;
-
         //フラグに合わせて表示・非表示を行う
-        AudioPanel.SetActive(isPause);
+        if (AudioPanel != null)
+        {
+            AudioPanel.SetActive(isPause);
+        }
     }
 }

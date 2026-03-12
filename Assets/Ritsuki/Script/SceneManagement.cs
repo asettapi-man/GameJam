@@ -16,7 +16,15 @@ public class SceneManagement : MonoBehaviour
             Debug.LogWarning($"シーン「{sceneName}」が存在しません");
             return;
         }
-       
+
+        //タイトルシーンか？
+        if (sceneName == "TitleScene")
+        {
+            Time.timeScale = 1.0f;
+        }
+
+        Debug.Log($"シーン「{sceneName}」に遷移");
+
         //waitTimeの時間待ってからシーン遷移する
         StartCoroutine(SceneDelay(sceneName, waitTime));
     }

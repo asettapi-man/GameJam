@@ -163,7 +163,6 @@ MonoBehaviour:
   currentData:
     itemName: 
     money: 0
-    gravity: 0
     scale: 0
     sprite: {fileID: 0}
     clip: {fileID: 0}
