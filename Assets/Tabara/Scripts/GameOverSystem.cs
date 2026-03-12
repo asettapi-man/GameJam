@@ -19,6 +19,7 @@ public class GameOverSystem : MonoBehaviour
         //‰Šú‰»
         resultObj.alpha = 0;
         isResult = false;
+        resultObj.blocksRaycasts = false;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -58,6 +59,7 @@ public class GameOverSystem : MonoBehaviour
 
         //•\¦‚Æ‰æ–Ê‚ÌÄ¶’â~
         resultObj.alpha = 1;
+        resultObj.blocksRaycasts = true;
         GameManager.Instance.isGameOver = true;
     }
 }
