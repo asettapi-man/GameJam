@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static ItemDataBase;
-using static UnityEditor.Timeline.Actions.MenuPriority;
 
 /// <summary>
 /// ƒŠƒUƒ‹ƒgUI(Image)ŠÇ—
