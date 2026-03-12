@@ -99,7 +99,7 @@ public class ResultSequence : MonoBehaviour
     void ScrollDown()
     {
         // è≠ÇµÇ∏Ç¬â∫Ç…à⁄ìÆ
-        scrollRect.verticalNormalizedPosition -= 0.2f;
+        scrollRect.verticalNormalizedPosition -= 0.17f;
 
         // 0ñ¢ñûÇ…Ç»ÇÁÇ»Ç¢ÇÊÇ§Ç…Ç∑ÇÈ
         scrollRect.verticalNormalizedPosition =
