@@ -36,7 +36,7 @@ public class FlyingItem : MonoBehaviour
     //
     public ParticleSystem shootingEffect;
 
-
+    private AudioSource audioSource;
 
 
 
@@ -58,6 +58,8 @@ public class FlyingItem : MonoBehaviour
 
         //スクリプトの同期
         imageChanges = GetComponent<ImageChanges>();
+
+        audioSource = GameObject.FindWithTag("ThrowAudio").GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -110,6 +112,7 @@ public class FlyingItem : MonoBehaviour
     public void StartFlying()
     {
         shootingEffect.Play();
+        audioSource.Play();
     }
 
 }
