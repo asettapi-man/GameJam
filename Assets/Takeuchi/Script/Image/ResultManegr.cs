@@ -113,7 +113,7 @@ public class ResultManegr : MonoBehaviour
             resultImages[i].SetSprite(data.sprite);
 
             //合計金額を合計金額テキストに同期
-            totalAmountText.text = amounts + "円";
+            totalAmountText.text = amounts + "えん";
         }
 
         isResult = true;
