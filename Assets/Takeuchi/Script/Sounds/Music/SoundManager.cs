@@ -42,6 +42,11 @@ public class SoundManager : MonoBehaviour
 
         // 初期音量適用
         ApplyVolume();
+
+        masterSlider = GameObject.FindWithTag("MasterSlider").GetComponent<Slider>();
+        bgmSlider = GameObject.FindWithTag("BGMSlider").GetComponent<Slider>();
+        seSlider = GameObject.FindWithTag("SESlider").GetComponent<Slider>();
+
     }
 
     /* ========================
@@ -85,9 +90,9 @@ public class SoundManager : MonoBehaviour
        UIスライダー
     ======================== */
 
-    public Slider masterSlider;
-    public Slider bgmSlider;
-    public Slider seSlider;
+    private Slider masterSlider;
+    private Slider bgmSlider;
+    private Slider seSlider;
 
     /* ========================
        音量変更
