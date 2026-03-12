@@ -1,8 +1,13 @@
 using UnityEngine;
-
+/// <summary>
+///　効果音のaudioソースコンポーネント
+/// </summary>
 public class PlaySE : MonoBehaviour
 {
-    // 再生する効果音
+    /// <summary>
+    /// インスペクターで指定
+    /// 再生する効果音
+    /// </summary>
     [SerializeField] AudioClip clip;     
 
     // 音を出すスピーカー
@@ -15,6 +20,9 @@ public class PlaySE : MonoBehaviour
     {
         source = GetComponent<AudioSource>();
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public void PlaySEs()
     {
         if (clip == null)
