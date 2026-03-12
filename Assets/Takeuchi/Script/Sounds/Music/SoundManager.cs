@@ -37,15 +37,16 @@ public class SoundManager : MonoBehaviour
         // SoundSource取得
         RegisterAllSources();
 
+        masterSlider = GameObject.FindWithTag("MasterSlider").GetComponent<Slider>();
+        bgmSlider = GameObject.FindWithTag("BGMSlider").GetComponent<Slider>();
+        seSlider = GameObject.FindWithTag("SESlider").GetComponent<Slider>();
+
+
         // 保存データロード
         LoadVolume();
 
         // 初期音量適用
         ApplyVolume();
-
-        masterSlider = GameObject.FindWithTag("MasterSlider").GetComponent<Slider>();
-        bgmSlider = GameObject.FindWithTag("BGMSlider").GetComponent<Slider>();
-        seSlider = GameObject.FindWithTag("SESlider").GetComponent<Slider>();
 
     }
 
