@@ -9,6 +9,7 @@ TagManager:
   - MasterSlider
   - BGMSlider
   - SESlider
+  - ThrowAudio
   layers:
   - Default
   - TransparentFX

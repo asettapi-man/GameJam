@@ -57,6 +57,8 @@ public class MoveAlongLine : MonoBehaviour
         //自オブジェクトから他コンポーネントの同期
         flyingItem = GetComponent<FlyingItem>();
         imageChanges = GetComponent<ImageChanges>();
+
+        
     }
 
     /// <summary>
@@ -128,6 +130,8 @@ public class MoveAlongLine : MonoBehaviour
         LineManager.Instance.ClearParticleFunc();
 
         flyingItem.StartFlying();
+
+      
     }
 
     /// <summary>
