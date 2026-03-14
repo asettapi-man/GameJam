@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor.Rendering;
 
 /// <summary>
 /// 投げられるアイテムを管理するクラス
@@ -74,10 +75,13 @@ public class FlyingItem : MonoBehaviour
         var scale = itemData.scale;
 
         // 予測点の見た目を設定
-        SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();　        //スプライトレンダラーの取得
-        spriteRenderer.sprite = GetComponent<SpriteRenderer>().sprite;                  //スプライトを適応
-        spriteRenderer.color = predictionPointColor;                                    //色を適応
-        preObj.GetComponent<Transform>().localScale = new Vector3(scale, scale, scale); //画像の大きさを適応
+        if (preObj != null)
+        {
+            SpriteRenderer spriteRenderer = preObj.GetComponent<SpriteRenderer>();         //スプライトレンダラーの取得
+            spriteRenderer.sprite = GetComponent<SpriteRenderer>().sprite;                  //スプライトを適応
+            spriteRenderer.color = predictionPointColor;                                    //色を適応
+            preObj.GetComponent<Transform>().localScale = new Vector3(scale, scale, scale); //画像の大きさを適応
+        }
     }
 
     /// <summary>
@@ -99,6 +103,10 @@ public class FlyingItem : MonoBehaviour
         gameObject.AddComponent<Rigidbody2D>();
         gameObject.AddComponent<PolygonCollider2D>();
 
+        // 終点と予測点のオブジェクトを削除
+        Destroy(endObj);
+        Destroy(preObj);
+
         // LineManagerの参照をリセットし、放物線を非表示
         yield return new WaitForSeconds(interval);
 
@@ -106,10 +114,6 @@ public class FlyingItem : MonoBehaviour
 
         // このスクリプト自体を削除
         Destroy(GetComponent<FlyingItem>());
-
-        // 終点と予測点のオブジェクトを削除
-        Destroy(endObj);
-        Destroy(preObj);
 
         //投げたアイテムのデータを追加
         GameManager.Instance.itemDatas.Add(itemData);

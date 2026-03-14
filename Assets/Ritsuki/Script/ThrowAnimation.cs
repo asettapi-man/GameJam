@@ -13,7 +13,7 @@ public class ThrowAnimation : MonoBehaviour
     void Update()
     {
         //¶ƒNƒŠƒbƒN‚Å“Š‚°‚é
-        if (Mouse.current.leftButton.wasPressedThisFrame && !GameManager.Instance.isGameOver)
+        if (Mouse.current.leftButton.wasPressedThisFrame && !GameManager.Instance.isGameOver && !PauseManager.Instance.isPause)
         {
             animator.SetTrigger("isThrow");
         }

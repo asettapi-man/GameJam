@@ -22,9 +22,6 @@ public class StackAppear : MonoBehaviour
     public float scaleDuration = 0.25f;
     public float intervalPerSlot = 0.08f;
 
-    [Header("シーン遷移設定")]
-    public string nextSceneName;
-
     private enum State { Idle, Appearing, Disappearing }
     private State state = State.Idle;
 
@@ -42,7 +39,6 @@ public class StackAppear : MonoBehaviour
         if (canvas == null) canvas = GetComponentInParent<Canvas>();
         canvasRect = canvas.GetComponent<RectTransform>();
         eventSystem = EventSystem.current;
-
         GenerateSlots();
     }
 
@@ -53,18 +49,17 @@ public class StackAppear : MonoBehaviour
     /// <summary>
     /// ボタンのOnClickに登録する。出現→シーン遷移→消滅を一連で実行。
     /// </summary>
-    public void StartAppear()
+    public void StartAppear(string nextSceneName)
     {
         if (state != State.Idle) return;
         state = State.Appearing;
-        SetInput(false);
-        StartCoroutine(AppearThenTransition());
+        StartCoroutine(AppearThenTransition(nextSceneName));
     }
 
     // =============================
     // 出現 → 遷移
     // =============================
-    IEnumerator AppearThenTransition()
+    IEnumerator AppearThenTransition(string nextSceneName)
     {
         foreach (var item in uiItems)
             if (item != null) Destroy(item.gameObject);
@@ -74,7 +69,7 @@ public class StackAppear : MonoBehaviour
         {
             Debug.LogError("Sprites リストが空です。");
             state = State.Idle;
-            SetInput(true);
+            //SetInput(true);
             yield break;
         }
 
@@ -91,11 +86,12 @@ public class StackAppear : MonoBehaviour
 
         // Canvas・EventSystemをDontDestroyOnLoadに登録して遷移後も保持
         DontDestroyOnLoad(canvas.gameObject);
-        if (eventSystem != null) DontDestroyOnLoad(eventSystem.gameObject);
 
         // シーン遷移（非同期で待機）
         var op = SceneManager.LoadSceneAsync(nextSceneName);
         yield return op;
+
+        eventSystem = EventSystem.current;
 
         // 遷移完了後、即座に消滅開始
         state = State.Disappearing;
@@ -125,7 +121,6 @@ public class StackAppear : MonoBehaviour
         uiItems.Clear();
 
         // 消滅完了後に入力を解放
-        SetInput(true);
         state = State.Idle;
 
         // Canvas自体も不要なら破棄
@@ -181,14 +176,6 @@ public class StackAppear : MonoBehaviour
 
     float EaseOutCubic(float t) => 1f - Mathf.Pow(1f - t, 3f);
     float EaseInCubic(float t) => t * t * t;
-
-    // =============================
-    // 入力制御
-    // =============================
-    void SetInput(bool enabled)
-    {
-        if (eventSystem != null) eventSystem.enabled = enabled;
-    }
 
     // =============================
     // スロット生成
