@@ -53,6 +53,10 @@ public class StackAppear : MonoBehaviour
     {
         if (state != State.Idle) return;
         state = State.Appearing;
+
+        //時間の流れが停止状態か？
+        if (Time.timeScale <= 0.0f) Time.timeScale = 1.0f;
+
         StartCoroutine(AppearThenTransition(nextSceneName));
     }
 

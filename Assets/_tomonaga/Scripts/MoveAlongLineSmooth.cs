@@ -57,8 +57,6 @@ public class MoveAlongLine : MonoBehaviour
         //自オブジェクトから他コンポーネントの同期
         flyingItem = GetComponent<FlyingItem>();
         imageChanges = GetComponent<ImageChanges>();
-
-        
     }
 
     /// <summary>
@@ -68,6 +66,14 @@ public class MoveAlongLine : MonoBehaviour
     {
         clickAction.performed -= OnClick;
         clickAction.Disable();
+    }
+
+    /// <summary>
+    /// オブジェクトが破壊されたとき、入力アクションを解除（メモリリーク防止）
+    /// </summary>
+    private void OnDestroy()
+    {
+        clickAction = null;
     }
 
     /// <summary>

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.InputSystem;
+using Unity.Jobs;
 
 
 public class ImageChanges : MonoBehaviour
@@ -9,6 +10,9 @@ public class ImageChanges : MonoBehaviour
     [SerializeField] private SpriteRenderer displayImage;      // 画像を表示用
     [SerializeField] private ItemDataBase itemDatas;           //アイテムデータ（画像用）
     [SerializeField] private float interval = 2.0f;            // 切り替え間隔（秒）
+
+    [SerializeField, Tooltip("インプットアクション")]
+    private InputAction decideAction;
 
     //アイテムデータ1件分
     [HideInInspector]
@@ -18,6 +22,9 @@ public class ImageChanges : MonoBehaviour
 
     private void Awake()
     {
+        decideAction.Enable();
+        decideAction.performed += OnClick;
+
         //コルーチン開始
         coroutine = StartCoroutine(AutoSwitch());
     }
@@ -31,9 +38,11 @@ public class ImageChanges : MonoBehaviour
             StopCoroutine(coroutine);
             return;
         }
+    }
 
-        //左クリックを押したらコルーチンを止める
-        if (Mouse.current.leftButton.wasPressedThisFrame && !PauseManager.Instance.isPause)
+    private void OnClick(InputAction.CallbackContext context)
+    {
+        if (!PauseManager.Instance.isPause)
         {
             StopCoroutine(coroutine);
             return;

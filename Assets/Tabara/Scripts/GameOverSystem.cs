@@ -8,8 +8,15 @@ public class GameOverSystem : MonoBehaviour
     [SerializeField, Tooltip("リザルト画面")]
     private CanvasGroup resultObj;
 
-    [SerializeField, Tooltip("リザルト画面表示までのカウントダウン")]
-    private float interval = 1.0f;
+    [Header("リザルト画面表示までのカウントダウン")]
+    [SerializeField, Tooltip("カウントダウン表示画面")]
+    private CanvasGroup countdownObj;
+    [SerializeField, Tooltip("カウントダウン表示テキスト")]
+    private Text countdownText;
+    [SerializeField, Tooltip("カウントダウン")]
+    private int countdownSeconds = 3;
+    [SerializeField, Tooltip("表示終了までの時間")]
+    private float finishMessageTextDuration = 1.0f;
 
     //リザルト画面に移るまでのカウントダウンの開始フラグ
     private bool isResult = false;
@@ -17,9 +24,11 @@ public class GameOverSystem : MonoBehaviour
     private void Awake()
     {
         //初期化
-        resultObj.alpha = 0;
-        isResult = false;
+        resultObj.alpha = 0.0f;
+        countdownObj.alpha = 0.0f;
         resultObj.blocksRaycasts = false;
+        countdownObj.blocksRaycasts = false;
+        isResult = false;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -44,19 +53,47 @@ public class GameOverSystem : MonoBehaviour
         if (!isResult)
         {
             isResult = true;
-            StartCoroutine(MoveResult(interval));
+            StartCoroutine(CountDownToResult());
         }
     }
 
     /// <summary>
-    /// リザルト画面表示処理
+    /// カウントダウン表示
     /// </summary>
-    /// <param name="interval">待つ秒数</param>
-    /// <returns>数秒待ってからリザルト画面を表示する</returns>
-    private IEnumerator MoveResult(float interval)
+    /// <returns></returns>
+    private IEnumerator CountDownToResult()
     {
-        yield return new WaitForSeconds(interval);
+        //カウントダウン画面の表示
+        countdownObj.alpha = 1.0f;
+        countdownObj.blocksRaycasts = true;
 
+        //カウントダウン用初期値
+        float elapsed = 0f;
+        int lastRemaining = -1;
+
+        //表示時間まで表示する
+        while (elapsed < countdownSeconds)
+        {
+            //自然数に変換
+            int elapsedSeconds = (int)elapsed;
+            int remaining = countdownSeconds - elapsedSeconds;
+
+            if (lastRemaining != remaining)
+            {
+                //時間を表示
+                countdownText.text = remaining.ToString();
+                lastRemaining = remaining;
+            }
+
+            yield return null;
+            elapsed += Time.unscaledDeltaTime;
+        }
+
+        //表示終了時
+        countdownText.text = "終了！";
+        yield return new WaitForSecondsRealtime(finishMessageTextDuration);
+
+        countdownObj.alpha = 0.0f;
         DisplayResult();
     }
 

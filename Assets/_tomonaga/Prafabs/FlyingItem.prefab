@@ -162,6 +162,23 @@ MonoBehaviour:
   displayImage: {fileID: 3648064246364785239}
   itemDatas: {fileID: 11400000, guid: fd93c9d2a2223f946942a2a3b1e19e56, type: 2}
   interval: 0.2
+  decideAction:
+    m_Name: Decide
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 44283baf-242d-4ac0-b21b-d0f9d20678d6
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: fa1d33ff-75e3-4e04-853b-3f6192002bdb
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Decide
+      m_Flags: 0
+    m_Flags: 0
   currentData:
     itemName: 
     money: 0

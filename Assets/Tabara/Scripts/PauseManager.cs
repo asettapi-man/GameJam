@@ -60,6 +60,9 @@ public class PauseManager : MonoBehaviour
         //フラグを反転
         isPause = !isPause;
 
+        //フラグに合わせて時間の流れを変更
+        Time.timeScale = isPause ? 0.0f : 1.0f;
+
         //フラグに合わせて表示・非表示を行う
         if (AudioPanel != null)
         {
