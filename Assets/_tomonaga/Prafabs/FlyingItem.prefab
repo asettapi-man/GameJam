@@ -112,6 +112,7 @@ MonoBehaviour:
   predictionPointPrafabs: {fileID: 1325858626481567408, guid: c59cedde2029984418cdd77f878819c5, type: 3}
   endPointPrafabs: {fileID: 3384560392460932849, guid: dc7f2cc64a310b9478889f55819f7701, type: 3}
   predictionPointColor: {r: 1, g: 1, b: 1, a: 0.3019608}
+  throwClip: {fileID: 8300000, guid: e0bc3090dc6b44f41a2faeb99134164c, type: 3}
   shootingEffect: {fileID: 4885591641727749763}
 --- !u!114 &7282572041452655928
 MonoBehaviour:

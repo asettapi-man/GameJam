@@ -756,7 +756,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4402260445464869551, guid: 22829b9913ec13d46bc37f2e62d9e7f6, type: 3}
+  m_Sprite: {fileID: -4402260445464869551, guid: cf374d89b74fffe42a20bbc478a61e66, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2954,8 +2954,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51e0167d7b0a6e478b91f27a3a9986c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomCursor
-  defaultSprite: {fileID: -4402260445464869551, guid: 22829b9913ec13d46bc37f2e62d9e7f6, type: 3}
-  hoverSprite: {fileID: -7512076163708184202, guid: 4bbb04c7581f31347b5b57150749fa30, type: 3}
+  defaultSprite: {fileID: -4402260445464869551, guid: cf374d89b74fffe42a20bbc478a61e66, type: 3}
+  hoverSprite: {fileID: -7512076163708184202, guid: 5e8c9c647f34a3f45aaea9b682144bb0, type: 3}
   offset: {x: 0, y: 0}
 --- !u!4 &1217847641
 Transform:

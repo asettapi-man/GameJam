@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor.Rendering;
 
 /// <summary>
 /// 投げられるアイテムを管理するクラス

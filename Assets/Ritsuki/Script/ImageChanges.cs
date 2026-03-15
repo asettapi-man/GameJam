@@ -20,6 +20,12 @@ public class ImageChanges : MonoBehaviour
 
     private Coroutine coroutine;    //ÉRÉãÅ[É`Éì
 
+    private void OnDestroy()
+    {
+        decideAction.performed -= OnClick;
+        decideAction.Disable();
+    }
+
     private void Awake()
     {
         decideAction.Enable();

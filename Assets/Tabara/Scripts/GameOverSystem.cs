@@ -18,6 +18,12 @@ public class GameOverSystem : MonoBehaviour
     [SerializeField, Tooltip("表示終了までの時間")]
     private float finishMessageTextDuration = 1.0f;
 
+    [Header("サウンド")]
+    [SerializeField, Tooltip("カウントダウン時の効果音")]
+    private AudioSource countdownSE;
+    [SerializeField, Tooltip("そこまで！の時の効果音")]
+    private AudioSource finishSE;
+
     //リザルト画面に移るまでのカウントダウンの開始フラグ
     private bool isResult = false;
 
@@ -36,8 +42,8 @@ public class GameOverSystem : MonoBehaviour
         //アイテムタグを持っているか？
         if (!collision.CompareTag("Item")) return;
 
-        //接触したオブジェクトが持っているアイテムデータを取得
-        var data = collision.GetComponent<ImageChanges>().currentData;
+         //接触したオブジェクトが持っているアイテムデータを取得
+         var data = collision.GetComponent<ImageChanges>().currentData;
 
         //集計用アイテムデータリストから削除
         GameManager.Instance.itemDatas.Remove(data);
@@ -80,7 +86,8 @@ public class GameOverSystem : MonoBehaviour
 
             if (lastRemaining != remaining)
             {
-                //時間を表示
+                //時間を表示・効果音の再生
+                countdownSE.Play();
                 countdownText.text = remaining.ToString();
                 lastRemaining = remaining;
             }
@@ -89,8 +96,9 @@ public class GameOverSystem : MonoBehaviour
             elapsed += Time.unscaledDeltaTime;
         }
 
-        //表示終了時
-        countdownText.text = "終了！";
+        //表示終了時に効果音の再生と終了した文章を表示
+        finishSE.Play();
+        countdownText.text = "そこまで！";
         yield return new WaitForSecondsRealtime(finishMessageTextDuration);
 
         countdownObj.alpha = 0.0f;
