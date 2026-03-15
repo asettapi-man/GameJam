@@ -130,7 +130,6 @@ GameObject:
   - component: {fileID: 17515872}
   - component: {fileID: 17515874}
   - component: {fileID: 17515873}
-  - component: {fileID: 17515875}
   m_Layer: 5
   m_Name: Character
   m_TagString: Untagged
@@ -195,22 +194,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17515871}
   m_CullTransparentMesh: 1
---- !u!111 &17515875
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17515871}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
 --- !u!1 &32381117
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,16 +724,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201173577}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 247907607}
+  m_Father: {fileID: 1217847641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1141, y: 0}
+  m_AnchoredPosition: {x: 1379, y: 57}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &201173579
@@ -773,7 +756,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4402260445464869551, guid: 22829b9913ec13d46bc37f2e62d9e7f6, type: 3}
+  m_Sprite: {fileID: -4402260445464869551, guid: cf374d89b74fffe42a20bbc478a61e66, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -917,7 +900,6 @@ MonoBehaviour:
   - {fileID: -8556154561557658812, guid: 7ac369af3e16ba64b83a11a3ed781ae4, type: 3}
   scaleDuration: 0.25
   intervalPerSlot: 0.04
-  nextSceneName: GameScene
 --- !u!1 &247907603
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,9 +998,8 @@ RectTransform:
   - {fileID: 50566712}
   - {fileID: 17515872}
   - {fileID: 2112178894}
-  - {fileID: 1217847641}
   - {fileID: 2144036614}
-  - {fileID: 201173578}
+  - {fileID: 1217847641}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1791,7 +1772,6 @@ GameObject:
   - component: {fileID: 653430097}
   - component: {fileID: 653430096}
   - component: {fileID: 653430095}
-  - component: {fileID: 653430094}
   m_Layer: 5
   m_Name: Start
   m_TagString: Untagged
@@ -1819,19 +1799,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 569.1, y: 220.8}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &653430094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653430091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66223c7f77ed9614a8184b27f613b9a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneManagement
-  waitTime: 1
 --- !u!114 &653430095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1879,7 +1846,7 @@ MonoBehaviour:
       - m_Target: {fileID: 219765761}
         m_TargetAssemblyTypeName: StackAppear, Assembly-CSharp
         m_MethodName: StartAppear
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2987,9 +2954,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51e0167d7b0a6e478b91f27a3a9986c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomCursor
-  cursorImage: {fileID: 201173579}
-  defaultSprite: {fileID: -4402260445464869551, guid: 22829b9913ec13d46bc37f2e62d9e7f6, type: 3}
-  hoverSprite: {fileID: -7512076163708184202, guid: 4bbb04c7581f31347b5b57150749fa30, type: 3}
+  defaultSprite: {fileID: -4402260445464869551, guid: cf374d89b74fffe42a20bbc478a61e66, type: 3}
+  hoverSprite: {fileID: -7512076163708184202, guid: 5e8c9c647f34a3f45aaea9b682144bb0, type: 3}
   offset: {x: 0, y: 0}
 --- !u!4 &1217847641
 Transform:
@@ -3003,7 +2969,8 @@ Transform:
   m_LocalPosition: {x: -238, y: -57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 201173578}
   m_Father: {fileID: 247907607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1353642273

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class CustomCursor : MonoBehaviour
 {
     [Header("カーソル画像")]
-    public Image cursorImage;
+    private Image cursorImage;
     public Sprite defaultSprite;  // 通常時
     public Sprite hoverSprite;    // ホバー時
 
@@ -15,6 +15,12 @@ public class CustomCursor : MonoBehaviour
 
      private float blinkTimer = 0f;
     private bool isImage1 = true;
+
+    private void Awake()
+    {
+        //コンポーネントの取得
+        cursorImage = GetComponentInChildren<Image>();
+    }
 
     void Start()
     {

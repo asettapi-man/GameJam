@@ -8,8 +8,21 @@ public class GameOverSystem : MonoBehaviour
     [SerializeField, Tooltip("リザルト画面")]
     private CanvasGroup resultObj;
 
-    [SerializeField, Tooltip("リザルト画面表示までのカウントダウン")]
-    private float interval = 1.0f;
+    [Header("リザルト画面表示までのカウントダウン")]
+    [SerializeField, Tooltip("カウントダウン表示画面")]
+    private CanvasGroup countdownObj;
+    [SerializeField, Tooltip("カウントダウン表示テキスト")]
+    private Text countdownText;
+    [SerializeField, Tooltip("カウントダウン")]
+    private int countdownSeconds = 3;
+    [SerializeField, Tooltip("表示終了までの時間")]
+    private float finishMessageTextDuration = 1.0f;
+
+    [Header("サウンド")]
+    [SerializeField, Tooltip("カウントダウン時の効果音")]
+    private AudioSource countdownSE;
+    [SerializeField, Tooltip("そこまで！の時の効果音")]
+    private AudioSource finishSE;
 
     //リザルト画面に移るまでのカウントダウンの開始フラグ
     private bool isResult = false;
@@ -17,9 +30,11 @@ public class GameOverSystem : MonoBehaviour
     private void Awake()
     {
         //初期化
-        resultObj.alpha = 0;
-        isResult = false;
+        resultObj.alpha = 0.0f;
+        countdownObj.alpha = 0.0f;
         resultObj.blocksRaycasts = false;
+        countdownObj.blocksRaycasts = false;
+        isResult = false;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -27,8 +42,8 @@ public class GameOverSystem : MonoBehaviour
         //アイテムタグを持っているか？
         if (!collision.CompareTag("Item")) return;
 
-        //接触したオブジェクトが持っているアイテムデータを取得
-        var data = collision.GetComponent<ImageChanges>().currentData;
+         //接触したオブジェクトが持っているアイテムデータを取得
+         var data = collision.GetComponent<ImageChanges>().currentData;
 
         //集計用アイテムデータリストから削除
         GameManager.Instance.itemDatas.Remove(data);
@@ -44,19 +59,57 @@ public class GameOverSystem : MonoBehaviour
         if (!isResult)
         {
             isResult = true;
-            StartCoroutine(MoveResult(interval));
+            StartCoroutine(CountDownToResult());
         }
     }
 
     /// <summary>
-    /// リザルト画面表示処理
+    /// カウントダウン表示
     /// </summary>
-    /// <param name="interval">待つ秒数</param>
-    /// <returns>数秒待ってからリザルト画面を表示する</returns>
-    private IEnumerator MoveResult(float interval)
+    /// <returns></returns>
+    private IEnumerator CountDownToResult()
     {
-        yield return new WaitForSeconds(interval);
+        //カウントダウン画面の表示
+        countdownObj.alpha = 1.0f;
+        countdownObj.blocksRaycasts = true;
 
+        //カウントダウン用初期値
+        float elapsed = 0f;
+        int lastRemaining = -1;
+
+        //表示時間まで表示する
+        while (elapsed < countdownSeconds)
+        {
+            //自然数に変換
+            int elapsedSeconds = (int)elapsed;
+            int remaining = countdownSeconds - elapsedSeconds;
+
+            if (lastRemaining != remaining)
+            {
+                //時間を表示・効果音の再生
+                countdownSE.Play();
+                countdownText.text = remaining.ToString();
+                lastRemaining = remaining;
+            }
+
+            yield return null;
+            elapsed += Time.unscaledDeltaTime;
+        }
+
+        //表示終了時に効果音の再生と終了した文章を表示
+        finishSE.Play();
+        countdownText.text = "そこまで！";
+        yield return new WaitForSecondsRealtime(finishMessageTextDuration);
+
+        countdownObj.alpha = 0.0f;
+        DisplayResult();
+    }
+
+    /// <summary>
+    /// リザルト画面の表示
+    /// </summary>
+    public void DisplayResult()
+    {
         //表示と画面の再生停止
         resultObj.alpha = 1;
         resultObj.blocksRaycasts = true;
