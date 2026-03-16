@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using Unityroom.Client;
 using static ItemDataBase;
 
 /// <summary>
@@ -26,6 +28,11 @@ public class ResultManegr : MonoBehaviour
 
     //リザルト画面の表示フラグ
     private bool isResult = false;
+
+    private UnityroomClient unityroomClient = new()
+    {
+        HmacKey = "JVkv9jPPm/ADPGPCgH8uBcvfUWkyJ1rBBRHvRpCTBDkDvVFRsR8lNn49+oGCOsujzgkJ3fNjTTp5iQoTkKmTEA=="
+    };
     
     private void Start()
     {
@@ -89,7 +96,7 @@ public class ResultManegr : MonoBehaviour
     /// <summary>
     /// リザルト更新
     /// </summary>
-    public void UpdateResult()
+    public async void UpdateResult()
     {
         DatasCount();
         ResultImageHidden();
@@ -114,6 +121,14 @@ public class ResultManegr : MonoBehaviour
             //合計金額を合計金額テキストに同期
             totalAmountText.text = amounts + "えん";
         }
+
+        //スコアをUnityroomでも反映させる
+        int totalAmount = itemDataBase.GetTotalAmount(GameManager.Instance.itemDatas);
+        await unityroomClient.Scoreboards.SendAsync(new()
+        {
+            ScoreboardId = 1,
+            Score = totalAmount
+        });
 
         isResult = true;
     }
