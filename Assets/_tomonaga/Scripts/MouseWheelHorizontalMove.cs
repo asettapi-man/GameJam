@@ -19,6 +19,16 @@ public class MouseWheelHorizontalMove : MonoBehaviour
     [SerializeField, Header("X座標の最大値")]
     private float maxX = 5.4f;
 
+    //スマホ用
+    [SerializeField, Tooltip("スワイプと判定する最低距離")]
+    private float swipeThreshold = 0.5f;
+
+    //画面タップした開始位置
+    private Vector2 startPos;
+
+    //タップ中か確認フラグ
+    private bool isTouching;
+
     /// <summary>
     /// 毎フレーム実行される処理
     /// マウスホイールの入力を監視
@@ -28,6 +38,7 @@ public class MouseWheelHorizontalMove : MonoBehaviour
         //ゲームオーバー時以外は実行
         if (GameManager.Instance.isGameOver) return;
 
+        //== マウス処理 ==
         // マウスホイールのスクロール量を取得
         Vector2 scroll = Mouse.current.scroll.ReadValue();
 
@@ -37,6 +48,35 @@ public class MouseWheelHorizontalMove : MonoBehaviour
         if (scrollAmount != 0 && !LineManager.Instance.isMoving && !PauseManager.Instance.isPause)
         {
             MoveObject(scrollAmount);
+        }
+
+        //== スワイプ処理 ==
+        //画面タップされたか？
+        var primaryTouch = Touchscreen.current?.primaryTouch;
+        if (primaryTouch != null) return;
+
+        //タッチ開始
+        if (primaryTouch.press.wasPressedThisFrame)
+        {
+            //開始位置を設定
+            startPos = primaryTouch.position.ReadValue();
+            isTouching = true; //タッチ中
+        }
+
+        //タッチ終了後にスワイプ判定
+        if (primaryTouch.press.wasReleasedThisFrame && LineManager.Instance.isMoving && !PauseManager.Instance.isPause && isTouching)
+        {
+            //終点位置を設定
+            Vector2 endPos = primaryTouch.position.ReadValue();
+
+            //移動距離を計算
+            Vector2 delta = endPos - startPos;
+
+            //最低距離よりも長いか？
+            if (delta.magnitude >= swipeThreshold)
+            {
+                MoveObject(delta.x);
+            }
         }
     }
 

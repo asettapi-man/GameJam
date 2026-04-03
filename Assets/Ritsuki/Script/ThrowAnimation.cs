@@ -12,10 +12,13 @@ public class ThrowAnimation : MonoBehaviour
 
     void Update()
     {
-        //左クリックで投げる
-        if (Mouse.current.leftButton.wasPressedThisFrame && !GameManager.Instance.isGameOver && !PauseManager.Instance.isPause)
+        //左クリックまたは画面タッチで投げる
+        if (Mouse.current.leftButton.wasPressedThisFrame || Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
         {
-            animator.SetTrigger("isThrow");
+            if (!GameManager.Instance.isGameOver && !PauseManager.Instance.isPause)
+            {
+                animator.SetTrigger("isThrow");
+            }
         }
     }
 }
